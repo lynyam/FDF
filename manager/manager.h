@@ -1,6 +1,7 @@
 #ifndef MANAGER_H
 # define MANAGER_H
 #include "../engine/engine.h"
+#include "../data/data.h"
 #include "../report/report.h"
 #include <stdio.h>
 
