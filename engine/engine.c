@@ -15,12 +15,12 @@ void	*engine_create_window(t_window_config *p_window_config)
 
 int	engine_expose_win(t_param *p)
 {
-	printf("expose x = %d, y = %d\n", p->x, p->y);
+//	printf("expose x = %d, y = %d\n", p->x, p->y);
 	//mlx_new_window(p->mlx, p->x, p->y, p->ti);
 	mlx_new_window(p->mlx, 721, 721, p->ti);
 	(p->x) -= 50;
 	(p->y) -= 50;
-	printf("%c, %p, \n", *(p->ti), p->ti);
+//	printf("%c, %p, \n", *(p->ti), p->ti);
 	*(p->ti) = *(p->ti) + 1;
 	return 0;
 }
@@ -39,7 +39,7 @@ int     engine_key_event(int key, t_window_config *p_window_config)
 int     engine_mouse_event(int button, int x, int y, t_param *param)
 {
 
-	printf("The button number %d : %#X is press on x = %d; y = %d\n", button, button, x, y);
+//	printf("The button number %d : %#X is press on x = %d; y = %d\n", button, button, x, y);
 	if (button == 1 || button == 5)
 	{
 		int color = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
@@ -206,7 +206,7 @@ void	draw(int matrix[11][20], t_param *param)
 	i = 0;
 	while (i < row)
 	{
-		printf("i = %d\n\n", i);	
+//		printf("i = %d\n\n", i);	
 		j = 0;
 		while (j < col && j + 1 < col)
 		{
@@ -214,12 +214,12 @@ void	draw(int matrix[11][20], t_param *param)
 			ei.y = j;
 			ei.z = matrix[i][j];
 			pi = engine_espace_to_iso(ei);
-			printf("vert x = %d y= %d \n", pi.x, pi.y);
+//			printf("vert x = %d y= %d \n", pi.x, pi.y);
 			eii.x = i;
 			eii.y = j + 1;
 			eii.z = matrix[i][j + 1];
 			pii = engine_espace_to_iso(eii);
-			printf("vert xi = %d yi= %d \n", pii.x, pii.y);
+//			printf("vert xi = %d yi= %d \n", pii.x, pii.y);
 			engine_plot_line(&pi, &pii, param);
 			j++;
 		}
@@ -239,8 +239,8 @@ void	draw(int matrix[11][20], t_param *param)
 			eii.y = j;
 			eii.z = matrix[i + 1][j];
 			pii = engine_espace_to_iso(eii);
-			printf("hor x = %d y= %d \n", pi.x, pi.y);
-			printf("hor xi = %d yi= %d \n", pii.x, pii.y);
+			//printf("hor x = %d y= %d \n", pi.x, pi.y);
+		//	printf("hor xi = %d yi= %d \n", pii.x, pii.y);
 			engine_plot_line(&pi, &pii, param);
 			i++;
 		}

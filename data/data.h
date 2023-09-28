@@ -4,6 +4,8 @@
 # include "../report/report.h"
 # include "fcntl.h"
 # include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 # define BUFSIZE 1024
 	
 
