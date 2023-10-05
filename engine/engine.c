@@ -171,10 +171,10 @@ t_point engine_espace_to_iso(t_espace espace)
 {
 	t_point	point;
 //	point.x = ((720 / 2) + 50 * ((sqrt(2) / 2) * (espace.x - espace.y)));
-	point.x = (720 / 2) + 20 * (-espace.x + espace.y);
+	point.x = (720 / 2) + 10 * (-espace.x + espace.y);
 	//point.x = (-espace.x + espace.y) * 20 + 720 / 2;
 	//point.y = (((espace.x + espace.y) / 2) - espace.z) *20 + 720 / 2;
-	point.y = (720 / 2) + ((espace.x + espace.y) * 20 / 2 - 2*espace.z);
+	point.y = (720 / 2) + ((espace.x + espace.y) * 10 / 2 - espace.z);
 	//point.y = ((720 / 2) + 50 * (-(sqrt(2 / 3) * espace.z) + ((espace.x + espace.y) * (1 / sqrt(6)))));
 	return point;
 }

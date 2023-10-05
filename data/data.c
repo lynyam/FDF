@@ -88,12 +88,19 @@ int	put_str_to_int(char *start, char *end)
 	len = end - start - 1;
 	current = start;
 	//printf("len est : %d\n", len);
+	if (*start == '-')
+	{
+		len--;
+		current = start - 1;
+	}
 	while (len >= 0)
 	{
 		nbr += (pow(10, len) * (*current - '0'));
 		current++;
 		len--;
 	}
+	if (*start == '-')
+		nbr *= (-1);
 	return nbr;
 }
 
@@ -192,7 +199,7 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 
 int	is_valid_char(char c)
 {
-	if ((c >= '0' && c <= '9') || c == 32 || c == '\n')
+	if ((c >= '0' && c <= '9') || c == 32 || c == '\n' || c == '-')
 		return (1);
 	return (0);
 }
