@@ -1,14 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manager.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 19:13:45 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/05 19:53:02 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "manager.h"
-int close_window(void *param)
+
+
+int	manager_start_processing(char *argv)
 {
-    // Effectuez ici toutes les actions de nettoyage nécessaires
-    // (par exemple, libérez les ressources, fermez les fichiers, etc.)
-    
-    // Puis quittez l'application
-    exit(0);
-}
-int	manager_start_processing(char argv[])
-{
+	t_matrix	*p_matrix;
+	int			fd;
+
+	p_matrix = NULL;
+	fd = data_open_file(argv);
+	if (fd == NOT_OPEN_FILE)
+	{
+		return ERROR_CODE;
+	}
+
+	p_matrix = data_read_file(fd);
+	if (p_matrix == NULL)
+	{
+		return ERROR_CODE;
+	}
+
 	void *p_connection_id;
 	void	*p_window_id;
 	t_size	window_size;
@@ -21,13 +43,23 @@ int	manager_start_processing(char argv[])
 	p_window_size = &window_size;
 	p_window_size->x = 720;
 	p_window_size->y = 720;
-	printf("%s\n", argv);
-	int fd = data_open_file(argv);
-//	data_read_file(fd);
+
+
+
+
+
+
+
+	report_connection_x_server(p_connection_id);
+
 
 
 	p_connection_id = engine_init_connection();
-	report_connection_x_server(p_connection_id);
+	engine_get_screen_size();
+
+
+
+
 	p_window_config = init_window_config(p_connection_id, p_window_size, window_title);
 	p_window_id = engine_create_window(p_window_config);
 	report_create_window(p_window_id);
@@ -54,18 +86,17 @@ int	manager_start_processing(char argv[])
 
 	mlx_key_hook(p_window_id, engine_key_event, param);
 	mlx_mouse_hook(p_window_id, engine_mouse_event, param);
-	
+
 	//engine_check_endian();
 	//engine_display_pixel(p_pixel);
-	t_matrix *p_matrix;
-	p_matrix = data_read_file(fd);
+
 	//print_matrix(fran, 10, 10);
 	engine_draw(p_matrix, param);
-	mlx_hook(p_window_id, 17, 0, close_window, p_connection_id);
+	mlx_hook(p_window_id, 17, 0, engine_close_window, p_connection_id);
 	mlx_loop(p_connection_id);
 	return (0);
 
-}                                                                                 
+}
 
 t_window_config	*init_window_config(void *p_connection_id, t_size *p_window_size, char *window_title)
 {

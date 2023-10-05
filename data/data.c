@@ -1,19 +1,26 @@
-//open, close, read, write,
-//malloc, free, perror,
-//strerror, exit
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/05 19:55:01 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "data.h"
 
-int     data_open_file(char *file_name)
+int	data_open_file(char *file_name)
 {
 	int	fd;
 
-	printf("%s\n", file_name);
 	fd = open(file_name, O_RDONLY, 0);
 	if (fd == -1)
 	{
-		report_exit_program("Can't open file");
-	} 
+		report_exit_program("OPEN_FILE_ERROR");
+	}
 	return fd;
 }
 
@@ -87,7 +94,6 @@ int	put_str_to_int(char *start, char *end)
 	nbr = 0;
 	len = end - start - 1;
 	current = start;
-	//printf("len est : %d\n", len);
 	if (*start == '-')
 	{
 		len--;
@@ -128,19 +134,11 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 	index_line = 0;
 
 	curr = str;
-	//char *tt = str;
-	//printf("\n==================\n");
-	//printf("file_str est : \n%s\n", tt);
-
-	//printf("str   = %p\ncurr  = %p\n",start,curr);
 	while (*curr != '\0')
 	{
 		if (*curr != 32 && *curr != '\0')
 		{
 			start = curr;
-//			printf("start = %p\ncurr  = %p\n",start,curr);
-	//		printf("==========f\n*curr = %c\nindex_line = %d\nline = %d\nindex_row = %d\nrow = %d\n============\n",*curr,index_line, line, index_row, row);
-	
 		}
 		while (*curr != 32 && *curr != '\0' && *curr != '\n')
 		{
@@ -149,14 +147,12 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 		if (*curr == 32 || *curr == '\0' || *curr =='\n')
 		{
 			end = curr;
-	//		printf("================To\nstart = %p\nend = %p\n", start, end);
-			if (index_line < p_matrix->row && index_row < p_matrix->col)	
+			if (index_line < p_matrix->row && index_row < p_matrix->col)
 			{
 				(p_matrix->matrix)[index_line][index_row] = put_str_to_int(start, end);
 			}
 			else
 			{
-				//printf("==========\nindex_line = %d\nline = %d\nindex_row = %d\nrow = %d\n============\n", index_line, line, index_row, row);
 				return (0);
 			}
              		if (*curr == 32)
@@ -175,27 +171,8 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 			}
 		}
 	}
-	//print_matrix(*matrix, line, row);
 	return (1);
 }
-
-/*void	get_matrix_size(int fd, int *line, int *row, int *file_len)
-{
-	int	n;
-	char	buf[BUFSIZE];
-	int	first_line;
-
-	first_line = 0;
-	while ((n = read(fd, buf, BUFSIZE)) >  0)
-	{
-		printf("%s\n==============\n", buf);
-		*file_len += n;
-		count_line(buf, line);
-		if (*row == 0 || first_line != -1)
-			first_line = count_row(buf, row);
-	}
-}
-*/
 
 int	is_valid_char(char c)
 {
@@ -208,7 +185,7 @@ char	*ft_concat(char *s1, char *s2, int s1_len, int nbr_char_s2)
 {
 	char	*target;
 	char	*rtn;
-	
+
 	rtn = (char *)malloc(sizeof(char) * (s1_len + nbr_char_s2 + 1));
 	target = rtn;
 	//if (target == NULL)
@@ -265,7 +242,7 @@ t_matrix	*data_read_file(int fd)
 		if (p_matrix->col == 0 || first_line != -1)
 			first_line = count_row(buf, &(p_matrix->col));
 	}
-	
+
 	//printf("ligne est: %d \ncolonne est: %d \nfile_len est: %d\n", line, row, file_len);
 	if (file_str == NULL)
 	{
@@ -284,7 +261,7 @@ t_matrix	*data_read_file(int fd)
 	printf("\n==================\n");
 	rtn_init = init_matrix_with_file(p_matrix, file_str);
 	if (rtn_init != 1)
-	{	
+	{
 		printf("matrix non initialiser\n");
 		return NULL;
 	}

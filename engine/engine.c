@@ -1,5 +1,15 @@
 #include "engine.h"
 
+
+int	engine_close_window(void *param)
+{
+    // Effectuez ici toutes les actions de nettoyage nécessaires
+    // (par exemple, libérez les ressources, fermez les fichiers, etc.)
+
+    // Puis quittez l'application
+    exit(0);
+}
+
 void	*engine_init_connection()
 {
 	return mlx_init();
@@ -8,7 +18,7 @@ void	*engine_init_connection()
 void	*engine_create_window(t_window_config *p_window_config)
 
 {
-	void	*p_window_id = mlx_new_window(p_window_config->p_connection_id, p_window_config->p_window_size->x, 
+	void	*p_window_id = mlx_new_window(p_window_config->p_connection_id, p_window_config->p_window_size->x,
 			p_window_config->p_window_size->y, p_window_config->title);
 	return p_window_id;
 }
@@ -28,7 +38,7 @@ int	engine_expose_win(t_param *p)
 int     engine_key_event(int key, t_window_config *p_window_config)
 {
 	printf("The key number %#X is press\n", key);
-	if (key == 0x35)
+	if (key == 0x35 || key == 0XFF1B)
 	{
 		printf("key %d\n", key);
 		exit(0);
@@ -71,7 +81,7 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
 			engine_plot_line(param->p0, &p, param);
 			param->p0->x = p.x;
 			param->p0->y = p.y;
-		} 
+		}
 	}
 	return 0;
 }
@@ -93,7 +103,7 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
    printf("Architecture Little-Endian\n");
    return (1);
    }
-   else 
+   else
    {
    printf("Architecture Big-Endian\n");
    }
@@ -200,7 +210,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	t_point	pii;
 	t_espace	ei;
 	t_espace	eii;
-	int	**matrix;	
+	int	**matrix;
 
 	matrix = p_matrix->matrix;
 	row = p_matrix->row; //strlen(matrix);
@@ -209,7 +219,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	printf("In Engine row = %d, col = %d, matrix = %p\n", row, col, matrix);
 	while (i < row)
 	{
-//		printf("i = %d\n\n", i);	
+//		printf("i = %d\n\n", i);
 		j = 0;
 		while (j < col && j + 1 < col)
 		{
@@ -230,7 +240,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	}
 	j = 0;
 	while (j < col)
-	{	
+	{
 		i = 0;
 		while (i < row && i + 1 < row)
 		{
@@ -257,13 +267,13 @@ void	draw_isometric(t_espace *object, t_param *param, int nbr_node)
 	//soit p ligne et q col
 	// joindre les p ligne pi, pi+1. ex ; trace l0 => for (i < q; i++){p1=spc_iso(0, i, m[0,i]) p2 = spac_iso(0, i+1, m[0,i+1]); trac(p1,p2)} pour toute les ligne for j from 0 to p { for i from 0 to q {}}; juste inverse le for pour tracer les coll
 	// joindre les q col qi, qi+1;
-	// appliquer la projection sur i j z et obtenir x y a  donner 
+	// appliquer la projection sur i j z et obtenir x y a  donner
 	int	i;
 
 	i = 0;
 	while (i < nbr_node)
 	{
-		
+
 		t_point pt_i = engine_espace_to_iso(object[i]);
 		//t_point pt_i = engine_espace_to_con(object[i], 2);
 		mlx_pixel_put(param->mlx, param->win, pt_i.x, pt_i.y, 900);

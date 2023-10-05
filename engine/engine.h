@@ -14,6 +14,7 @@ void	*engine_init_connection();
 int**	convert_to_isometric(int **map_in_space);
 int*	create_windows();
 int	display_map();
+int	engine_close_window(void *param);
 #include <string.h>
 #include <stdlib.h>
 

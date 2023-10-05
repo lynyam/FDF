@@ -1,5 +1,8 @@
 #ifndef MODEL_H
- #define MODEL_H
+# define MODEL_H
+# define NOT_OPEN_FILE -1
+# define ERROR_CODE 1
+# define SUCCES_CODE 0
 
 typedef struct s_size {
 	int	x;
