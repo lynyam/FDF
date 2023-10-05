@@ -28,7 +28,7 @@ int	engine_expose_win(t_param *p)
 int     engine_key_event(int key, t_window_config *p_window_config)
 {
 	printf("The key number %#X is press\n", key);
-	if (key == 7)
+	if (key == 0x35)
 	{
 		printf("key %d\n", key);
 		exit(0);
@@ -39,7 +39,7 @@ int     engine_key_event(int key, t_window_config *p_window_config)
 int     engine_mouse_event(int button, int x, int y, t_param *param)
 {
 
-//	printf("The button number %d : %#X is press on x = %d; y = %d\n", button, button, x, y);
+	printf("The button number %d : %#X is press on x = %d; y = %d\n", button, button, x, y);
 	if (button == 1 || button == 5)
 	{
 		int color = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
@@ -170,11 +170,11 @@ void engine_plot_line(t_point *p1, t_point *p2, t_param *param)
 t_point engine_espace_to_iso(t_espace espace)
 {
 	t_point	point;
-	//point.x = ((720 / 2) + 50 * ((sqrt(2) / 2) * (espace.x - espace.y)));
-	point.x = (720 / 2) + 10 * (espace.x + espace.y);
+//	point.x = ((720 / 2) + 50 * ((sqrt(2) / 2) * (espace.x - espace.y)));
+	point.x = (720 / 2) + 20 * (-espace.x + espace.y);
 	//point.x = (-espace.x + espace.y) * 20 + 720 / 2;
 	//point.y = (((espace.x + espace.y) / 2) - espace.z) *20 + 720 / 2;
-	point.y = (720 / 2) + 10 * ((espace.x + espace.y) / 2 - espace.z);
+	point.y = (720 / 2) + ((espace.x + espace.y) * 20 / 2 - 2*espace.z);
 	//point.y = ((720 / 2) + 50 * (-(sqrt(2 / 3) * espace.z) + ((espace.x + espace.y) * (1 / sqrt(6)))));
 	return point;
 }
@@ -190,7 +190,7 @@ t_point engine_space_to_con(t_espace espace, int d)
 }
 
 
-void	draw(int matrix[11][20], t_param *param)
+void	engine_draw(t_matrix *p_matrix, t_param *param)
 {
 	int	row;
 	int	col;
@@ -199,11 +199,14 @@ void	draw(int matrix[11][20], t_param *param)
 	t_point	pi;
 	t_point	pii;
 	t_espace	ei;
-	t_espace	eii;	
+	t_espace	eii;
+	int	**matrix;	
 
-	row = 11; //strlen(matrix);
-	col = 20; //strlen(matrix[0];
+	matrix = p_matrix->matrix;
+	row = p_matrix->row; //strlen(matrix);
+	col = p_matrix->col; //strlen(matrix[0];
 	i = 0;
+	printf("In Engine row = %d, col = %d, matrix = %p\n", row, col, matrix);
 	while (i < row)
 	{
 //		printf("i = %d\n\n", i);	

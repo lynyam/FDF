@@ -73,5 +73,5 @@ void	engine_plot_line_opti(t_point *point1, t_point *point2, t_param *param);
 void	engine_plot_line3(t_point *point1, t_point *point2, t_param *param);
 t_point	engine_espace_to_iso(t_espace espace);
 void    draw_isometric(t_espace *object, t_param *param, int nbr_node);
-void    draw(int matrix[11][20], t_param *param);
+void    engine_draw(t_matrix *p_matrix, t_param *param);
 #endif
