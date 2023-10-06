@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/05 19:55:01 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/06 02:51:06 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,14 @@ void	allocate_matrix(t_matrix *p_matrix)
 {
 	int	i;
 
-	i = 0;
 	p_matrix->matrix = (int **)malloc(p_matrix->row * sizeof(int *));
-	if (p_matrix->matrix == NULL)
+	if (p_matrix->matrix != NULL)
 	{
-		printf("Allcate failed on fonction Allocate_matrix\n");
-		return;
-	}
-	while (i < p_matrix->row)
-	{
-		(p_matrix->matrix)[i++] = (int *)malloc(p_matrix->col * sizeof(int));
+		i = 0;
+		while (i < p_matrix->row)
+		{
+			(p_matrix->matrix)[i++] = (int *)malloc(p_matrix->col * sizeof(int));
+		}
 	}
 	return;
 }
@@ -122,8 +120,6 @@ void	print_matrix(int **matrix, int n, int p) {
 
 int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 {
-	int	n;
-	char buff[BUFSIZE];
 	char	*start;
 	char	*end;
 	int	index_row;
@@ -132,7 +128,6 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 
 	index_row = 0;
 	index_line = 0;
-
 	curr = str;
 	while (*curr != '\0')
 	{
@@ -206,70 +201,37 @@ char	*ft_concat(char *s1, char *s2, int s1_len, int nbr_char_s2)
 	return (rtn);
 }
 
-t_matrix	*data_read_file(int fd)
+void	data_read_file(int fd, t_file *p_file)
 {
-	int	n;
-	char	c;
-	char	buf[BUFSIZE];
-	t_matrix	*p_matrix;
-	t_matrix	matrix;
-	int	first_line;
-	int	rtn_init;
-	int	file_len;
-	char	*file_str;
-	int	index;
-	int	old_n;
+	int		read_count;
+	int		prev_read_count;
 
-	p_matrix = &matrix;
-	p_matrix->row = 0;
-	p_matrix->col = 0;
-	p_matrix->matrix = NULL;
-	first_line = 0;
-	rtn_init = 0;
-	file_len = 0;
-	index = 0;
-	old_n = 0;
-	file_str = NULL;
-	while ((n = read(fd, buf, BUFSIZE)) >  0)
+	p_file->file_str = NULL;
+	prev_read_count = 0;
+	p_file->first_line = 0;
+	while ((read_count = read(fd, p_file->buf, BUFSIZE)) > 0)
 	{
-		printf("%s\n==============\n", buf);
-		file_len += n;
-		printf("file_len : %d\n==============\n", file_len);
-		file_str = ft_concat(file_str, buf, old_n, n);
-		//printf("ligne est: %d \ncolonne est: %d \nfile_len est: %d\n", line, row, file_len);
-		old_n = n;
-		count_line(buf, &(p_matrix->row));
-		if (p_matrix->col == 0 || first_line != -1)
-			first_line = count_row(buf, &(p_matrix->col));
+		p_file->file_str = ft_concat(p_file->file_str, p_file->buf,
+										prev_read_count, read_count);
+		prev_read_count = read_count;
+		count_line(p_file->buf, &(p_file->row));
+		if (p_file->col == 0 || p_file->first_line != -1)
+			p_file->first_line = count_row(p_file->buf, &(p_file->col));
 	}
+	return;
+}
 
-	//printf("ligne est: %d \ncolonne est: %d \nfile_len est: %d\n", line, row, file_len);
-	if (file_str == NULL)
-	{
-		printf("Invalid file\n");
-		return NULL;
-	}
+void	data_store_file_in_matrix(t_file *p_file, t_matrix *p_matrix)
+{
+	p_matrix->row = p_file->row;
+	p_matrix->col = p_file->col;
 	allocate_matrix(p_matrix);
 	if (p_matrix->matrix == NULL)
 	{
-		printf("matrix est null.\n");
-		return NULL;
+		report_exit_program(ALLOCATED_ERROR);
+		return;
 	}
-	printf("\n==================\n");
-//	printf("file_str est : \n%s\n", file_str);
-
-	printf("\n==================\n");
-	rtn_init = init_matrix_with_file(p_matrix, file_str);
-	if (rtn_init != 1)
-	{
-		printf("matrix non initialiser\n");
-		return NULL;
-	}
-	else
-	{
-		//print_matrix(matrix, line, row);
-	}
-	printf("\n==================\n");
-	return p_matrix;
+	if (init_matrix_with_file(p_matrix, p_file->file_str) != 1)
+		report_exit_program(DATA_STRUCT_INIT_ERROR);
+	return;
 }
-

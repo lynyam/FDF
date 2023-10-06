@@ -6,26 +6,42 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:13:45 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/05 19:53:02 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/06 02:28:30 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "manager.h"
 
-
 int	manager_start_processing(char *argv)
 {
 	t_matrix	*p_matrix;
+	t_file		*p_file;
 	int			fd;
 
-	p_matrix = NULL;
 	fd = data_open_file(argv);
 	if (fd == NOT_OPEN_FILE)
 	{
 		return ERROR_CODE;
 	}
-
-	p_matrix = data_read_file(fd);
+	p_matrix = (t_matrix *)malloc(sizeof(t_matrix *));
+	if (p_matrix == NULL)
+	{
+		report_exit_program(ALLOCATED_ERROR);
+		return ERROR_CODE;
+	}
+	p_file = (t_file *)malloc(sizeof(t_file *));
+	if (p_file == NULL)
+	{
+		report_exit_program(ALLOCATED_ERROR);
+		return ERROR_CODE;
+	}
+	data_read_file(fd, p_file);
+	if (p_file->file_str == NULL)
+	{
+		report_exit_program(INVALID_FILE_ERROR);
+		return ERROR_CODE;
+	}
+	data_store_file_in_matrix(p_file, p_matrix);
 	if (p_matrix == NULL)
 	{
 		return ERROR_CODE;
@@ -55,7 +71,7 @@ int	manager_start_processing(char *argv)
 
 
 	p_connection_id = engine_init_connection();
-	engine_get_screen_size();
+//	engine_get_screen_size();
 
 
 
