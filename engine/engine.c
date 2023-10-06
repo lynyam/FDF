@@ -1,5 +1,130 @@
 #include "engine.h"
 
+void	engine_connect_x_server(t_window *p_window)
+{
+	p_window->p_connection_id =  mlx_init();
+	report_connection_x_server(p_window->p_connection_id);
+}
+
+void	engine_create_window(t_window *p_window)
+{
+	p_window->width =  mlx_screen_size(p_window->p_connection_id, 0);
+	p_window->height = mlx_screen_size(p_window->p_connection_id, 1);
+	p_window->p_window_id = mlx_new_window(p_window->p_connection_id,
+		p_window->width, p_window->height, p_window->title);
+	report_create_window(p_window);
+}
+
+void	engine_draw(t_matrix *p_matrix, t_window *p_window)
+{
+	int	i;
+	int	j;
+	t_pair pair;
+
+	i = 0;
+	while (i < p_matrix->row)
+	{
+		j = 0;
+		while (j < p_matrix->col && j + 1 < p_matrix->col)
+		{
+			//to be continue
+
+			pair = engine_espace_to_iso(i, j, p_matrix);
+			pair.p1 = engine_espace_to_iso(i, j, p_matrix->matrix[i][j]);
+			pair.p2 = engine_espace_to_iso(i, j + 1, p_matrix->matrix[i][j + 1]);
+			engine_plot_line(&pair, p_window);
+			j++;
+		}
+		i++;
+	}
+	j = 0;
+	while (j < p_matrix->col)
+	{
+		i = 0;
+		while (i < p_matrix->row && i + 1 < p_matrix->row)
+		{
+			ei.x = i;
+			ei.y = j;
+			ei.z = p_matrix->matrix[i][j];
+			pi = engine_espace_to_iso(ei);
+			eii.x = i + 1;
+			eii.y = j;
+			eii.z = p_matrix->matrix[i + 1][j];
+			pii = engine_espace_to_iso(eii);
+			engine_plot_line(&pi, &pii, p_matrix);
+			i++;
+		}
+		j++;
+	}
+}
+
+void engine_plot_line(t_point *p1, t_point *p2, t_param *param)
+{
+	int	dx;
+	int	dy;
+
+	int	c = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
+	int x0 = p1->x;
+	int y0 = p1->y;
+	int x1 = p2->x;
+	int y1 = p2->y;
+	dx = x1 - x0;
+	dy = y1 - y0;
+	int incX = SGN(dx);
+	int incY = SGN(dy);
+	dx = ABS(dx);
+	dy = ABS(dy);
+
+	if (dy == 0)
+	{
+		for (int x = x0; x != x1 + incX; x += incX)
+			mlx_pixel_put(param->mlx, param->win, x, y0, c);
+	}
+	else if (dx == 0)
+	{
+		for (int y = y0; y != y1 + incY; y += incY)
+			mlx_pixel_put(param->mlx, param->win, x0, y, c);
+	}
+	else if (dx >= dy)
+	{
+		int slope = 2 * dy;
+		int error = -dx;
+		int errorInc = -2 * dx;
+		int y = y0;
+
+		for (int x = x0; x != x1 + incX; x += incX)
+		{
+			mlx_pixel_put(param->mlx, param->win, x, y, c);
+			error += slope;
+
+			if (error >= 0)
+			{
+				y += incY;
+				error += errorInc;
+			}
+		}
+	}
+	else
+	{
+		int slope = 2 * dx;
+		int error = -dy;
+		int errorInc = -2 * dy;
+		int x = x0;
+
+		for (int y = y0; y != y1 + incY; y += incY)
+		{
+			mlx_pixel_put(param->mlx, param->win, x, y, c);
+			error += slope;
+
+			if (error >= 0)
+			{
+				x += incX;
+				error += errorInc;
+			}
+		}
+	}
+}
+
 
 int	engine_close_window(void *param)
 {
@@ -10,18 +135,6 @@ int	engine_close_window(void *param)
     exit(0);
 }
 
-void	*engine_init_connection()
-{
-	return mlx_init();
-}
-
-void	*engine_create_window(t_window_config *p_window_config)
-
-{
-	void	*p_window_id = mlx_new_window(p_window_config->p_connection_id, p_window_config->p_window_size->x,
-			p_window_config->p_window_size->y, p_window_config->title);
-	return p_window_id;
-}
 
 int	engine_expose_win(t_param *p)
 {
@@ -110,72 +223,7 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
    return (0);
    }*/
 
-void engine_plot_line(t_point *p1, t_point *p2, t_param *param)
-{
-	int	dx;
-	int	dy;
 
-	int	c = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
-	int x0 = p1->x;
-	int y0 = p1->y;
-	int x1 = p2->x;
-	int y1 = p2->y;
-	dx = x1 - x0;
-	dy = y1 - y0;
-	int incX = SGN(dx);
-	int incY = SGN(dy);
-	dx = ABS(dx);
-	dy = ABS(dy);
-
-	if (dy == 0)
-	{
-		for (int x = x0; x != x1 + incX; x += incX)
-			mlx_pixel_put(param->mlx, param->win, x, y0, c);
-	}
-	else if (dx == 0)
-	{
-		for (int y = y0; y != y1 + incY; y += incY)
-			mlx_pixel_put(param->mlx, param->win, x0, y, c);
-	}
-	else if (dx >= dy)
-	{
-		int slope = 2 * dy;
-		int error = -dx;
-		int errorInc = -2 * dx;
-		int y = y0;
-
-		for (int x = x0; x != x1 + incX; x += incX)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				y += incY;
-				error += errorInc;
-			}
-		}
-	}
-	else
-	{
-		int slope = 2 * dx;
-		int error = -dy;
-		int errorInc = -2 * dy;
-		int x = x0;
-
-		for (int y = y0; y != y1 + incY; y += incY)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				x += incX;
-				error += errorInc;
-			}
-		}
-	}
-}
 
 t_point engine_espace_to_iso(t_espace espace)
 {

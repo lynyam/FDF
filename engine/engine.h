@@ -1,42 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   engine.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/06 19:34:29 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ENGINE_H
 # define ENGINE_H
 # define ABS(X) ((X) >= 0 ? (X) : -(X))
 # define SGN(X) ((X) < 0 ? -1 : ((X) > 0 ? 1 : 0))
 # define PI 3.14
+# include "../report/report.h"
+# include "../model/model.h"
+# include "../mlx/mlx.h"
+# include <string.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <math.h>
+
+typedef struct	s_window {
+	void		*p_connection_id;
+	void		*p_window_id;
+	int			width;
+	int			height;
+	char		*title;
+	t_color		*p_color;
+}				t_window;
+
+void	engine_connect_x_server(t_window *p_window);
+void	engine_create_window(t_window *p_window)
 
 
-#include "../report/report.h"
-#include "../model/model.h"
-#include "../mlx/mlx.h"
-#include <stdbool.h>
-#include <math.h>
-void	*engine_init_connection();
+
+
 int**	convert_to_isometric(int **map_in_space);
 int*	create_windows();
 int	display_map();
 int	engine_close_window(void *param);
-#include <string.h>
-#include <stdlib.h>
-
-typedef struct		s_color {
-	unsigned int	red;
-	unsigned int	green;
-	unsigned int	blue;
-}			t_color;
-
-typedef	struct	s_point {
-	int	x;
-	int	y;
-}		t_point;
-
-
-typedef struct	s_window_config {
-	void	*p_connection_id;
-	t_size	*p_window_size;
-	char	*title;
-	t_color	*p_color;
-}		t_window_config;
-
 typedef	struct	s_param {
 	void	*mlx;
 	void	*win;
