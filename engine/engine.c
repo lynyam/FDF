@@ -27,11 +27,7 @@ void	engine_draw(t_matrix *p_matrix, t_window *p_window)
 		j = 0;
 		while (j < p_matrix->col && j + 1 < p_matrix->col)
 		{
-			//to be continue
-
-			pair = engine_espace_to_iso(i, j, p_matrix);
-			pair.p1 = engine_espace_to_iso(i, j, p_matrix->matrix[i][j]);
-			pair.p2 = engine_espace_to_iso(i, j + 1, p_matrix->matrix[i][j + 1]);
+			pair = engine_espace_to_iso(i, j, i, j + 1, p_matrix);
 			engine_plot_line(&pair, p_window);
 			j++;
 		}
@@ -43,85 +39,11 @@ void	engine_draw(t_matrix *p_matrix, t_window *p_window)
 		i = 0;
 		while (i < p_matrix->row && i + 1 < p_matrix->row)
 		{
-			ei.x = i;
-			ei.y = j;
-			ei.z = p_matrix->matrix[i][j];
-			pi = engine_espace_to_iso(ei);
-			eii.x = i + 1;
-			eii.y = j;
-			eii.z = p_matrix->matrix[i + 1][j];
-			pii = engine_espace_to_iso(eii);
-			engine_plot_line(&pi, &pii, p_matrix);
+			pair = engine_espace_to_iso(i, j, i + 1, j, p_matrix);
+			engine_plot_line(&pair, p_window);
 			i++;
 		}
 		j++;
-	}
-}
-
-void engine_plot_line(t_point *p1, t_point *p2, t_param *param)
-{
-	int	dx;
-	int	dy;
-
-	int	c = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
-	int x0 = p1->x;
-	int y0 = p1->y;
-	int x1 = p2->x;
-	int y1 = p2->y;
-	dx = x1 - x0;
-	dy = y1 - y0;
-	int incX = SGN(dx);
-	int incY = SGN(dy);
-	dx = ABS(dx);
-	dy = ABS(dy);
-
-	if (dy == 0)
-	{
-		for (int x = x0; x != x1 + incX; x += incX)
-			mlx_pixel_put(param->mlx, param->win, x, y0, c);
-	}
-	else if (dx == 0)
-	{
-		for (int y = y0; y != y1 + incY; y += incY)
-			mlx_pixel_put(param->mlx, param->win, x0, y, c);
-	}
-	else if (dx >= dy)
-	{
-		int slope = 2 * dy;
-		int error = -dx;
-		int errorInc = -2 * dx;
-		int y = y0;
-
-		for (int x = x0; x != x1 + incX; x += incX)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				y += incY;
-				error += errorInc;
-			}
-		}
-	}
-	else
-	{
-		int slope = 2 * dx;
-		int error = -dy;
-		int errorInc = -2 * dy;
-		int x = x0;
-
-		for (int y = y0; y != y1 + incY; y += incY)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				x += incX;
-				error += errorInc;
-			}
-		}
 	}
 }
 
@@ -225,16 +147,14 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
 
 
 
-t_point engine_espace_to_iso(t_espace espace)
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix)
 {
-	t_point	point;
-//	point.x = ((720 / 2) + 50 * ((sqrt(2) / 2) * (espace.x - espace.y)));
-	point.x = (720 / 2) + 10 * (-espace.x + espace.y);
-	//point.x = (-espace.x + espace.y) * 20 + 720 / 2;
-	//point.y = (((espace.x + espace.y) / 2) - espace.z) *20 + 720 / 2;
-	point.y = (720 / 2) + ((espace.x + espace.y) * 10 / 2 - espace.z);
-	//point.y = ((720 / 2) + 50 * (-(sqrt(2 / 3) * espace.z) + ((espace.x + espace.y) * (1 / sqrt(6)))));
-	return point;
+	t_pair	pair;
+	pair.p1.x = (720 / 2) + 10 * (-p1_x + p1_y);
+	pair.p1.y = (720 / 2) + ((p1_x + p1_y) * 10 / 2 - p_matrix->matrix[p1_x][p1_y]);
+	pair.p2.x = (720 / 2) + 10 * (-p2_x + p2_y);
+	pair.p2.y = (720 / 2) + ((p2_x + p2_y) * 10 / 2 - p_matrix->matrix[p2_x][p2_y]);
+	return pair;
 }
 
 t_point engine_space_to_con(t_espace espace, int d)
