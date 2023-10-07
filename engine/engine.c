@@ -47,6 +47,15 @@ void	engine_draw(t_matrix *p_matrix, t_window *p_window)
 	}
 }
 
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix)
+{
+	t_pair	pair;
+	pair.p1.x = (720 / 2) + 10 * (-p1_x + p1_y);
+	pair.p1.y = (720 / 2) + ((p1_x + p1_y) * 10 / 2 - p_matrix->matrix[p1_x][p1_y]);
+	pair.p2.x = (720 / 2) + 10 * (-p2_x + p2_y);
+	pair.p2.y = (720 / 2) + ((p2_x + p2_y) * 10 / 2 - p_matrix->matrix[p2_x][p2_y]);
+	return pair;
+}
 
 int	engine_close_window(void *param)
 {
@@ -147,15 +156,7 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
 
 
 
-t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix)
-{
-	t_pair	pair;
-	pair.p1.x = (720 / 2) + 10 * (-p1_x + p1_y);
-	pair.p1.y = (720 / 2) + ((p1_x + p1_y) * 10 / 2 - p_matrix->matrix[p1_x][p1_y]);
-	pair.p2.x = (720 / 2) + 10 * (-p2_x + p2_y);
-	pair.p2.y = (720 / 2) + ((p2_x + p2_y) * 10 / 2 - p_matrix->matrix[p2_x][p2_y]);
-	return pair;
-}
+
 
 t_point engine_space_to_con(t_espace espace, int d)
 {
