@@ -1,16 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 18:12:05 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/06 18:52:23 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 int	main(int argc, char **argv)
 {
-	int return_code;
-	char *message_error = "INCORRECT_ARGS";
+	int		return_code;
 
+	return_code = 0;
 	if (argc != 2)
 	{
-		report_exit_program(message_error);
-		//printf("%s\n",message_error);
+		report_exit_program(INCORRECT_ARGS_ERROR);
+		exit(1);
 	}
-	
-	return_code = manager_start_processing(argv[1]);
-	return(return_code);
+	return_code = manager_start_processing(argv);
+	return (return_code);
 }

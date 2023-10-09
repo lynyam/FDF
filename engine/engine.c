@@ -1,17 +1,71 @@
 #include "engine.h"
 
-void	*engine_init_connection()
+void	engine_connect_x_server(t_window *p_window)
 {
-	return mlx_init();
+	p_window->p_connection_id =  mlx_init();
+	report_connection_x_server(p_window->p_connection_id);
 }
 
-void	*engine_create_window(t_window_config *p_window_config)
-
+void	engine_create_window(t_window *p_window)
 {
-	void	*p_window_id = mlx_new_window(p_window_config->p_connection_id, p_window_config->p_window_size->x, 
-			p_window_config->p_window_size->y, p_window_config->title);
-	return p_window_id;
+	p_window->width =  mlx_screen_size(p_window->p_connection_id, 0);
+	p_window->height = mlx_screen_size(p_window->p_connection_id, 1);
+	p_window->p_window_id = mlx_new_window(p_window->p_connection_id,
+		p_window->width, p_window->height, p_window->title);
+	report_create_window(p_window);
 }
+
+void	engine_draw(t_matrix *p_matrix, t_window *p_window)
+{
+	int	i;
+	int	j;
+	t_pair pair;
+
+	i = 0;
+	while (i < p_matrix->row)
+	{
+		j = 0;
+		while (j < p_matrix->col && j + 1 < p_matrix->col)
+		{
+			pair = engine_espace_to_iso(i, j, i, j + 1, p_matrix);
+			engine_plot_line(&pair, p_window);
+			j++;
+		}
+		i++;
+	}
+	j = 0;
+	while (j < p_matrix->col)
+	{
+		i = 0;
+		while (i < p_matrix->row && i + 1 < p_matrix->row)
+		{
+			pair = engine_espace_to_iso(i, j, i + 1, j, p_matrix);
+			engine_plot_line(&pair, p_window);
+			i++;
+		}
+		j++;
+	}
+}
+
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix)
+{
+	t_pair	pair;
+	pair.p1.x = (720 / 2) + 10 * (-p1_x + p1_y);
+	pair.p1.y = (720 / 2) + ((p1_x + p1_y) * 10 / 2 - p_matrix->matrix[p1_x][p1_y]);
+	pair.p2.x = (720 / 2) + 10 * (-p2_x + p2_y);
+	pair.p2.y = (720 / 2) + ((p2_x + p2_y) * 10 / 2 - p_matrix->matrix[p2_x][p2_y]);
+	return pair;
+}
+
+int	engine_close_window(void *param)
+{
+    // Effectuez ici toutes les actions de nettoyage nécessaires
+    // (par exemple, libérez les ressources, fermez les fichiers, etc.)
+
+    // Puis quittez l'application
+    exit(0);
+}
+
 
 int	engine_expose_win(t_param *p)
 {
@@ -28,7 +82,7 @@ int	engine_expose_win(t_param *p)
 int     engine_key_event(int key, t_window_config *p_window_config)
 {
 	printf("The key number %#X is press\n", key);
-	if (key == 0x35)
+	if (key == 0x35 || key == 0XFF1B)
 	{
 		printf("key %d\n", key);
 		exit(0);
@@ -71,7 +125,7 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
 			engine_plot_line(param->p0, &p, param);
 			param->p0->x = p.x;
 			param->p0->y = p.y;
-		} 
+		}
 	}
 	return 0;
 }
@@ -93,91 +147,16 @@ int     engine_mouse_event(int button, int x, int y, t_param *param)
    printf("Architecture Little-Endian\n");
    return (1);
    }
-   else 
+   else
    {
    printf("Architecture Big-Endian\n");
    }
    return (0);
    }*/
 
-void engine_plot_line(t_point *p1, t_point *p2, t_param *param)
-{
-	int	dx;
-	int	dy;
 
-	int	c = ((param->p_color->red) << 16) | ((param->p_color->green) << 8) | (param->p_color->blue);
-	int x0 = p1->x;
-	int y0 = p1->y;
-	int x1 = p2->x;
-	int y1 = p2->y;
-	dx = x1 - x0;
-	dy = y1 - y0;
-	int incX = SGN(dx);
-	int incY = SGN(dy);
-	dx = ABS(dx);
-	dy = ABS(dy);
 
-	if (dy == 0)
-	{
-		for (int x = x0; x != x1 + incX; x += incX)
-			mlx_pixel_put(param->mlx, param->win, x, y0, c);
-	}
-	else if (dx == 0)
-	{
-		for (int y = y0; y != y1 + incY; y += incY)
-			mlx_pixel_put(param->mlx, param->win, x0, y, c);
-	}
-	else if (dx >= dy)
-	{
-		int slope = 2 * dy;
-		int error = -dx;
-		int errorInc = -2 * dx;
-		int y = y0;
 
-		for (int x = x0; x != x1 + incX; x += incX)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				y += incY;
-				error += errorInc;
-			}
-		}
-	}
-	else
-	{
-		int slope = 2 * dx;
-		int error = -dy;
-		int errorInc = -2 * dy;
-		int x = x0;
-
-		for (int y = y0; y != y1 + incY; y += incY)
-		{
-			mlx_pixel_put(param->mlx, param->win, x, y, c);
-			error += slope;
-
-			if (error >= 0)
-			{
-				x += incX;
-				error += errorInc;
-			}
-		}
-	}
-}
-
-t_point engine_espace_to_iso(t_espace espace)
-{
-	t_point	point;
-//	point.x = ((720 / 2) + 50 * ((sqrt(2) / 2) * (espace.x - espace.y)));
-	point.x = (720 / 2) + 10 * (-espace.x + espace.y);
-	//point.x = (-espace.x + espace.y) * 20 + 720 / 2;
-	//point.y = (((espace.x + espace.y) / 2) - espace.z) *20 + 720 / 2;
-	point.y = (720 / 2) + ((espace.x + espace.y) * 10 / 2 - espace.z);
-	//point.y = ((720 / 2) + 50 * (-(sqrt(2 / 3) * espace.z) + ((espace.x + espace.y) * (1 / sqrt(6)))));
-	return point;
-}
 
 t_point engine_space_to_con(t_espace espace, int d)
 {
@@ -200,7 +179,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	t_point	pii;
 	t_espace	ei;
 	t_espace	eii;
-	int	**matrix;	
+	int	**matrix;
 
 	matrix = p_matrix->matrix;
 	row = p_matrix->row; //strlen(matrix);
@@ -209,7 +188,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	printf("In Engine row = %d, col = %d, matrix = %p\n", row, col, matrix);
 	while (i < row)
 	{
-//		printf("i = %d\n\n", i);	
+//		printf("i = %d\n\n", i);
 		j = 0;
 		while (j < col && j + 1 < col)
 		{
@@ -230,7 +209,7 @@ void	engine_draw(t_matrix *p_matrix, t_param *param)
 	}
 	j = 0;
 	while (j < col)
-	{	
+	{
 		i = 0;
 		while (i < row && i + 1 < row)
 		{
@@ -257,13 +236,13 @@ void	draw_isometric(t_espace *object, t_param *param, int nbr_node)
 	//soit p ligne et q col
 	// joindre les p ligne pi, pi+1. ex ; trace l0 => for (i < q; i++){p1=spc_iso(0, i, m[0,i]) p2 = spac_iso(0, i+1, m[0,i+1]); trac(p1,p2)} pour toute les ligne for j from 0 to p { for i from 0 to q {}}; juste inverse le for pour tracer les coll
 	// joindre les q col qi, qi+1;
-	// appliquer la projection sur i j z et obtenir x y a  donner 
+	// appliquer la projection sur i j z et obtenir x y a  donner
 	int	i;
 
 	i = 0;
 	while (i < nbr_node)
 	{
-		
+
 		t_point pt_i = engine_espace_to_iso(object[i]);
 		//t_point pt_i = engine_espace_to_con(object[i], 2);
 		mlx_pixel_put(param->mlx, param->win, pt_i.x, pt_i.y, 900);

@@ -1,8 +1,7 @@
 CFLAGS = -g -std=c99
 
 fdf : client.o manager.o engine.o data.o report.o
-	cc -o fdf client.o manager.o engine.o data.o report.o -lmlx -Lmlx -framework OpenGL -framework AppKit
-
+	cc -o fdf client.o manager.o engine.o data.o report.o -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_Linux -lXext -lX11 -lm -lz
 client.o : client/client.c client/client.h report/report.h
 	cc $(CFLAGS) -c client/client.c
 manager.o : manager/manager.c manager/manager.h
