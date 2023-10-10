@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:22:22 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/09 21:51:19 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:14:31 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	engine_close_window(void *param)
 
 int	engine_expose_win(t_param *p)
 {
-//	printf("expose x = %d, y = %d\n", p->x, p->y);
-	//mlx_new_window(p->mlx, p->x, p->y, p->ti);
 	mlx_new_window(p->mlx, 721, 721, p->ti);
 	(p->x) -= 50;
 	(p->y) -= 50;
@@ -38,7 +36,7 @@ int	engine_expose_win(t_param *p)
 	return 0;
 }
 
-int     engine_key_event(int key, t_window_config *p_window_config)
+int     engine_key_event(int key, t_window *p_window)
 {
 	if (key == 0x35 || key == 0XFF1B)
 	{
@@ -46,7 +44,7 @@ int     engine_key_event(int key, t_window_config *p_window_config)
 	}
 	return 0;
 }
-//test
+
 int     engine_mouse_event(int button, int x, int y, t_param *param)
 {
 	if (button == 1 || button == 5)

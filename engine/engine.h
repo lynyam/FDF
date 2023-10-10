@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/07 17:27:36 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:23:14 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct	s_window {
 }				t_window;
 
 void	engine_connect_x_server(t_window *p_window);
-void	engine_create_window(t_window *p_window)
-t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix)
+void	engine_create_window(t_window *p_window);
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);
 
 
 int**	convert_to_isometric(int **map_in_space);
@@ -66,24 +66,18 @@ typedef struct	s_espace {
 	int	y;
 	int	z;
 }		t_espace;
-
-void    *engine_create_window(t_window_config *p_window_config);
-int     engine_expose_win(t_param *p);
-int	engine_key_event(int key, t_window_config *p_window_config);
-int	engine_mouse_event(int button, int x, int y, t_param *param);
-int     engine_display_pixel(t_pixel *pixel);
-int     engine_check_endian();
-void	engine_plot_line_opti(t_point *point1, t_point *point2, t_param *param);
-void	engine_plot_line3(t_point *point1, t_point *point2, t_param *param);
-void    draw_isometric(t_espace *object, t_param *param, int nbr_node);
-void    engine_draw(t_matrix *p_matrix, t_param *param);
-
-
-int color_to_int(t_color *p_color);
-void draw_horizontal_line(t_window *p_window, int x0, int x1, int y, int c, int incX);
-void draw_slope(t_window *p_window, int x0, int y0, int x1, int y1, int dx, int dy, int incX, int incY);
-void draw_line_horizontal(t_window *p_window, t_pair *p_pair, int incX);
-void draw_line_slope(t_window *p_window, t_pair *p_pair, int dx, int dy, int incX, int incY);
+void	engine_connect_x_server(t_window *p_window);
+void	engine_create_window(t_window *p_window);
+void	engine_draw(t_matrix *p_matrix, t_window *p_window);
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);
 void engine_plot_line(t_pair *p_pair, t_window *p_window);
+void	draw_line_slope(t_window *p_window, t_pair *p_pair, int dx, int dy, int incX, int incY);
+void	draw_line_horizontal(t_window *p_window, t_pair *p_pair, int incX);
+void	draw_slope(t_window *p_window, int x0, int y0, int x1, int y1, int dx, int dy, int incX, int incY);
+void	draw_horizontal_line(t_window *p_window, int x0, int x1, int y, int c, int incX);
+int	color_to_int(struct s_color *p_color);
+int	engine_close_window(void *param);
+void    engine_callback_hook(t_window *p_window);
+
 
 #endif
