@@ -22,7 +22,7 @@ void	engine_create_window(t_window *p_window)
 
     mlx_destroy_window(p_window->p_connection_id, p_window->p_window_id);
 	printf("with = %d \nheight = %d\n", p_window->width, p_window->height);
-	report_create_window(p_window);
+	//report_create_window(p_window);
 }
 
 /*void	engine_draw(t_matrix *p_matrix, t_window *p_window)
