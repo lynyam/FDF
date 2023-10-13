@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "../mlx/mlx_int.h"
 
 void	engine_connect_x_server(t_window *p_window)
 {
@@ -8,14 +9,23 @@ void	engine_connect_x_server(t_window *p_window)
 
 void	engine_create_window(t_window *p_window)
 {
-	p_window->width =  mlx_screen_size(p_window->p_connection_id, 0);
-	p_window->height = mlx_screen_size(p_window->p_connection_id, 1);
+	int screen_width;
+	int	screen_height;
+
+	//p_window->width =  mlx_screen_size(p_window->p_connection_id, 0);
+	//p_window->height = mlx_screen_size(p_window->p_connection_id, 1);
+	//printf("with = %d \nheight = %d\n", p_window->width, p_window->height);
 	p_window->p_window_id = mlx_new_window(p_window->p_connection_id,
-		p_window->width, p_window->height, p_window->title);
+		0, 0, p_window->title);
+		// Get the screen size
+    mlx_get_screen_size(p_window->p_connection_id, &p_window->width, &p_window->height);
+
+    mlx_destroy_window(p_window->p_connection_id, p_window->p_window_id);
+	printf("with = %d \nheight = %d\n", p_window->width, p_window->height);
 	report_create_window(p_window);
 }
 
-void	engine_draw(t_matrix *p_matrix, t_window *p_window)
+/*void	engine_draw(t_matrix *p_matrix, t_window *p_window)
 {
 	int	i;
 	int	j;
@@ -56,4 +66,4 @@ t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_
 	pair.p2.y = (720 / 2) + ((p2_x + p2_y) * 10 / 2 - p_matrix->matrix[p2_x][p2_y]);
 	return pair;
 }
-
+ */

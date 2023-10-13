@@ -6,6 +6,5 @@
 #include "../report/report.h"
 #include <stdio.h>
 
-int	manager_start_processing(char argv[]);
-t_window_config	*init_window_config(void *p_connection_id, t_size *p_window_size, char *window_title);
+int manager_start_processing(char **argv);
 #endif

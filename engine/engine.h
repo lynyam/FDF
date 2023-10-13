@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/09 22:23:14 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:17:04 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct	s_espace {
 	int	y;
 	int	z;
 }		t_espace;
-void	engine_connect_x_server(t_window *p_window);
 void	engine_create_window(t_window *p_window);
 void	engine_draw(t_matrix *p_matrix, t_window *p_window);
 t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);

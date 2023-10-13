@@ -6,18 +6,28 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 02:03:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/06 20:10:20 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:22:08 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MODEL_H
 # define MODEL_H
 # include "../report/report.h"
+# include <stdlib.h>
 # define NOT_OPEN_FILE -1
 # define ERROR_CODE 1
 # define SUCCES_CODE 0
 # define RETURN_CODE_ZERO 0
 # define RETURN_CODE_ONE 1
+# define BUFSIZE 1020
+typedef	struct	s_file {
+	char 		*file_str;
+	char		buf[BUFSIZ];
+	int			first_line;
+	int			row;
+	int			col;
+	int			fd;
+}				t_file;
 
 typedef struct s_size {
 	int	x;
@@ -46,20 +56,13 @@ typedef	struct	s_matrix {
 	int			row;
 }				t_matrix;
 
-typedef	struct	s_file {
-	char 		*file_str;
-	char		buf[BUFSIZ];
-	int			first_line;
-	int			row;
-	int			col;
-	int			fd;
-}				t_file;
 
-void	count_row(char *buf, int *row);
+int	count_row(char *buf, int row);
 int	count_col(char *buf, int *col);
 int	ft_strlen(char	*start, char *end);
 char	*ft_concat(t_file *p_file, int prev_buf_count, int buf_count);
 void	allocate_matrix(t_matrix *p_matrix);
 int	is_valid_char(char c);
+void afficherMatrice(int **matrix, int lignes, int colonnes);
 #endif
 
