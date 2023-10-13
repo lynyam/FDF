@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/13 16:58:51 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:00:54 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define PI 3.14
 # include "../report/report.h"
 # include "../model/model.h"
-# include "../mlx/mlx.h"
+# include "../mlx_linux/mlx.h"
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -34,10 +34,8 @@ typedef struct	s_window {
 
 void	engine_connect_x_server(t_window *p_window);
 void	engine_create_window(t_window *p_window);
-t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);
+t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix, t_window *p_wndow);
 void	engine_create_window(t_window *p_window);
-t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);
-
 
 int**	convert_to_isometric(int **map_in_space);
 int*	create_windows();
@@ -70,7 +68,6 @@ typedef struct	s_espace {
 }		t_espace;
 void	engine_create_window(t_window *p_window);
 void	engine_draw(t_matrix *p_matrix, t_window *p_window);
-t_pair engine_espace_to_iso(int p1_x, int p1_y, int p2_x, int p2_y, t_matrix *p_matrix);
 void engine_plot_line(t_pair *p_pair, t_window *p_window);
 void	draw_line_slope(t_window *p_window, t_pair *p_pair, int dx, int dy, int incX, int incY);
 void	draw_line_horizontal(t_window *p_window, t_pair *p_pair, int incX);

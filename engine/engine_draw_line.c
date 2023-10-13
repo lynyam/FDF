@@ -19,13 +19,17 @@ void	draw_slope(t_window *p_window, int x0, int y0, int x1, int y1, int dx, int 
 	int error;
 	int errorInc;
 	int y;
+	int c;
 
 	slope = 2 * dy;
 	error = -dx;
 	errorInc = -2 * dx;
 	y = y0;
+	c = 900;
 	while (x0 != x1 + incX)
 	{
+		if (x0 < 1200)
+			printf("x = %d, y = %d\n", x0, y);
 		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x0, y, c);
 		error += slope;
 		if (error >= 0)
@@ -49,7 +53,8 @@ void	draw_line_slope(t_window *p_window, t_pair *p_pair, int dx, int dy, int inc
 {
 	int c;
 
-	c = color_to_int(p_window->p_color);
+	//c = color_to_int(p_window->p_color);
+	c = 900;
 	draw_slope(p_window, p_pair->p1.x, p_pair->p1.y, p_pair->p2.x, p_pair->p2.y, dx, dy, incX, incY);
 }
 

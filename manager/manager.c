@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:13:45 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/13 17:43:35 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:22:16 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ int	manager_start_processing(char **argv)
 	p_window->p_connection_id = NULL;
 	engine_connect_x_server(p_window);
 	p_window->title = argv[0];
-	printf("la fenetre est : %s\n", p_window->title);
 	engine_create_window(p_window);
-	/*engine_draw(p_matrix, p_window);*/
+	engine_draw(p_matrix, p_window);
 	//callback_hook(p_window);
 	mlx_loop(p_window->p_connection_id);
 	return (0);
