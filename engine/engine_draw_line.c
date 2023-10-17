@@ -1,80 +1,122 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   engine_draw_line.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/16 17:39:01 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/17 00:49:10 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "engine.h"
 
-int	color_to_int(struct s_color *p_color)
+void	draw_horizontal_line(t_pair pair0, int inc_x, t_window *p_window)
 {
-	return ((p_color->red) << 16) | ((p_color->green) << 8) | (p_color->blue);
-}
+	int	x;
 
-void	draw_horizontal_line(t_window *p_window, int x0, int x1, int y, int c, int incX)
-{
-	while (x0 != x1 + incX)
+	x = pair0.p1.x;
+	while (x != pair0.p2.x + inc_x)
 	{
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x0, y, c);
-		x0 += incX;
+		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
+			x, pair0.p1.y, p_window->color);
+		x += inc_x;
 	}
 }
 
-void	draw_slope(t_window *p_window, int x0, int y0, int x1, int y1, int dx, int dy, int incX, int incY) {
-	int slope;
-	int error;
-	int errorInc;
-	int y;
-	int c;
+void	draw_vertical_line(t_pair pair0, int inc_y, t_window *p_window)
+{
+	int	y;
 
-	slope = 2 * dy;
-	error = -dx;
-	errorInc = -2 * dx;
-	y = y0;
-	c = 900;
-	while (x0 != x1 + incX)
+	y = pair0.p1.y;
+	while (y != pair0.p2.y + inc_y)
 	{
-		if (x0 < 1200)
-			printf("x = %d, y = %d\n", x0, y);
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x0, y, c);
+		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
+			pair0.p1.x, y, p_window->color);
+		y += inc_y;
+	}
+}
+
+void	draw_steep_line(t_pair pair0, t_point inc_p, t_point dp,
+	t_window *p_window)
+{
+	int	x;
+	int	y;
+	int	slope;
+	int	error;
+	int	error_inc;
+
+	slope = 2 * dp.y;
+	error = -dp.x;
+	error_inc = -2 * dp.x;
+	x = pair0.p1.x;
+	y = pair0.p1.y;
+	while (x != pair0.p2.x + inc_p.x)
+	{
+		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
+			p_window->color);
 		error += slope;
 		if (error >= 0)
 		{
-			y += incY;
-			error += errorInc;
+			y += inc_p.y;
+			error += error_inc;
 		}
-		x0 += incX;
+		x += inc_p.x;
 	}
 }
 
-void	draw_line_horizontal(t_window *p_window, t_pair *p_pair, int incX)
+void	draw_gentle_line(t_pair pair0, t_point inc_p, t_point dp,
+	t_window *p_window)
 {
-	int c;
+	int	x;
+	int	y;
+	int	slope;
+	int	error;
+	int	error_inc;
 
-	c = color_to_int(p_window->p_color);
-	draw_horizontal_line(p_window, p_pair->p1.x,p_pair->p2.x, p_pair->p1.y, c, incX);
+	x = pair0.p1.x;
+	y = pair0.p1.y;
+	slope = 2 * dp.x;
+	error = -dp.y;
+	error_inc = -2 * dp.y;
+	while (y != pair0.p2.y + inc_p.y)
+	{
+		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
+			p_window->color);
+		error += slope;
+		if (error >= 0)
+		{
+			x += inc_p.x;
+			error += error_inc;
+		}
+		y += inc_p.y;
+	}
 }
 
-void	draw_line_slope(t_window *p_window, t_pair *p_pair, int dx, int dy, int incX, int incY)
+void	engine_plot_line(t_pair *p_pair, t_window *p_window)
 {
-	int c;
+	t_point	dp;
+	t_point	inc_p;
+	t_pair	pair0;
 
-	//c = color_to_int(p_window->p_color);
-	c = 900;
-	draw_slope(p_window, p_pair->p1.x, p_pair->p1.y, p_pair->p2.x, p_pair->p2.y, dx, dy, incX, incY);
-}
-
-void engine_plot_line(t_pair *p_pair, t_window *p_window)
-{
-	int dx;
-	int dy;
-	int incX;
-	int incY;
-
-	dx = p_pair->p2.x - p_pair->p1.x;
-	dy = p_pair->p2.y - p_pair->p1.y;
-	incX = SGN(dx);
-	incY = SGN(dy);
-	if (dy == 0)
-		draw_line_horizontal(p_window, p_pair, incX);
-	else if (dx == 0)
-		draw_line_horizontal(p_window, p_pair, incY);
-	else if (dx >= dy)
-		draw_line_slope(p_window, p_pair, dx, dy, incX, incY);
+	p_window->color = 900;
+	pair0.p1.x = p_pair->p1.x;
+	pair0.p1.y = p_pair->p1.y;
+	pair0.p2.x = p_pair->p2.x;
+	pair0.p2.y = p_pair->p2.y;
+	dp.x = pair0.p2.x - pair0.p1.x;
+	dp.y = pair0.p2.y - pair0.p1.y;
+	inc_p.x = sgn(dp.x);
+	inc_p.y = sgn(dp.y);
+	dp.x = abs(dp.x);
+	dp.y = abs(dp.y);
+	if (dp.y == 0)
+		draw_horizontal_line(pair0, inc_p.x, p_window);
+	if (dp.x == 0)
+		draw_vertical_line(pair0, inc_p.y, p_window);
+	else if (dp.x >= dp.y)
+		draw_steep_line(pair0, inc_p, dp, p_window);
 	else
-		draw_line_slope(p_window, p_pair, dy, dx, incY, incX);
+		draw_gentle_line(pair0, inc_p, dp, p_window);
 }

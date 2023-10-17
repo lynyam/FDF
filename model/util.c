@@ -6,22 +6,11 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:24:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/11 13:18:01 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 03:14:20 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "model.h"
-
-int	count_row(char *buf, int row)
-{
-	while (*buf != EOF && *buf != '\0')
-	{
-		if (*buf == '\n')
-			row += 1;
-		buf++;
-	}
-	return row;
-}
 
 int	is_valid_char(char c)
 {
@@ -30,91 +19,38 @@ int	is_valid_char(char c)
 	return (RETURN_CODE_ZERO);
 }
 
-int	count_col(char *buf, int *col)
+int	sgn(int x)
 {
-	while (*buf != EOF && *buf != '\0' && *buf != '\n')
+	if (x < 0)
 	{
-		while (*buf != 32 && *buf != EOF && *buf != '\0' && *buf != '\n')
-			buf++;
-		if (*buf == 32)
-			*col += 1;
-		while (*buf == 32)
-			buf++;
-	}
-	if (*buf == '\n')
-	{
-		*col += 1;
 		return (-1);
 	}
-	return (0);
+	else if (x > 0)
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }
 
-int	ft_strlen(char	*start, char *end)
+int	color_to_int(struct s_color *p_color)
 {
-	int	len;
-
-	len = 0;
-	while (start < end)
-	{
-		len++;
-	}
-	return (len);
+	return (((p_color->red) << 16) | ((p_color->green) << 8) | (p_color->blue));
 }
 
-char	*ft_concat(t_file *p_file, int prev_buf_count, int buf_count)
+void	util_init_t_init(t_init_m *init)
 {
-	char	*target;
-	char	*rtn;
-	int		new_len;
-	int		i;
-
-	new_len = prev_buf_count + buf_count;
-	rtn = (char *)malloc(sizeof(char) * (new_len + 1));
-	if (rtn == NULL)
-	{
-		report_exit_program(ALLOCATED_ERROR);
-		return NULL;
-	}
-	target = rtn;
-	target[new_len] = '\0';
-	i = 0;
-	while (p_file->file_str && *(p_file->file_str) != '\0' && i < prev_buf_count)
-	{
-		
-		if (is_valid_char(*p_file->file_str) == 0)
-			return NULL;
-		*target++ = p_file->file_str[i++];
-	}
-	i = 0;
-	while (*p_file->buf != '\0' && i < buf_count)
-	{
-		if (is_valid_char(*(p_file->buf)) == 0)
-			return NULL;
-		*target++ = p_file->buf[i++];
-	}
-	return (rtn);
+	init->col = 0;
+	init->row = 0;
+	init->end = NULL;
+	init->start = NULL;
 }
-void	allocate_matrix(t_matrix *p_matrix)
+
+void	util_increment(t_init_m *init, char **str)
 {
-	int	i;
-
-	p_matrix->matrix = (int **)malloc(p_matrix->row * sizeof(int *));
-	if (p_matrix->matrix != NULL)
-	{
-		i = 0;
-		while (i < p_matrix->row)
-		{
-			(p_matrix->matrix)[i] = (int *)malloc(p_matrix->col * sizeof(int));
-			i++;
-		}
-	}
-	return ;
-}
-void afficherMatrice(int **matrix, int lignes, int colonnes) {
-    for (int i = 0; i < lignes; i++) {
-        for (int j = 0; j < colonnes; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
+	init->row++;
+	init->col = 0;
+	*str += 1;
 }

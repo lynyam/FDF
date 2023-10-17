@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/10 16:55:39 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 03:14:56 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@ int	data_open_file(char *file_name)
 	int	fd;
 
 	fd = open(file_name, O_RDONLY, 0);
-	if (fd == -1)
-	{
-		report_exit_program(OPEN_FILE_ERROR);
-	}
 	return (fd);
 }
 
 /*
-todo revoir pourquoi lq taille changepour filestr a chaque execution 
+todo revoir pourquoi lq taille changepour filestr a chaque execution
 */
 void	data_read_file(t_file *p_file)
 {
@@ -42,6 +38,8 @@ void	data_read_file(t_file *p_file)
 	while (read_count > 0)
 	{
 		p_file->file_str = ft_concat(p_file, prev_read_count, read_count);
+		if (p_file->file_str == NULL)
+			return ;
 		prev_read_count = read_count;
 		p_file->row = count_row(p_file->buf, p_file->row);
 		if (p_file->col == 0 || p_file->first_line != -1)
@@ -55,7 +53,6 @@ void	data_store_file_in_matrix(t_file *p_file, t_matrix *p_matrix)
 {
 	p_matrix->row = p_file->row;
 	p_matrix->col = p_file->col;
-	printf("row = %d\ncol = %d\n", p_matrix->row, p_matrix->col);
 	allocate_matrix(p_matrix);
 	if (p_matrix->matrix == NULL)
 	{
@@ -71,8 +68,7 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 {
 	t_init_m	init;
 
-	init.col = 0;
-	init.row = 0;
+	util_init_t_init(&init);
 	while (*str != '\0')
 	{
 		if (*str != 32 && *str != '\0')
@@ -91,16 +87,12 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 			while (*str == 32)
 				str++;
 			if (*str == '\n')
-			{
-				init.row++;
-				init.col = 0;
-				str++;
-			}
-				//increment(&init, &str);
+				util_increment(&init, &str);
 		}
 	}
 	return (RETURN_CODE_ONE);
 }
+
 int	put_str_to_int(t_init_m init_m)
 {
 	int		nbr;
@@ -124,11 +116,4 @@ int	put_str_to_int(t_init_m init_m)
 	if (*init_m.start == '-')
 		nbr *= (-1);
 	return (nbr);
-}
-
-void	increment(t_init_m *init, char **str)
-{
-	init->row++;
-	init->col = 0;
-	*str = *str + 1;
 }

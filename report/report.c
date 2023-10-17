@@ -1,8 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   report.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/17 00:59:52 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/17 01:00:04 by lnyamets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "report.h"
 
 void	report_exit_program(char *message)
 {
 	printf("Message error: %s\n", message);
+}
+
+int	report_log_error(char *message, char *dta_struct)
+{
+	printf("Message error: %s : %s\n", message, dta_struct);
+	return (ERROR_CODE);
 }
 
 void	report_connection_x_server(void *p_connection_id)
