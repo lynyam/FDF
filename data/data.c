@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 03:14:56 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 07:35:48 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,9 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 
 int	put_str_to_int(t_init_m init_m)
 {
-	int		nbr;
 	int		len;
-	char	*current;
+	char	current[init_m.end - init_m.start];
 
-	nbr = 0;
-	len = init_m.end - init_m.start - 1;
-	current = init_m.start;
-	if (*init_m.start == '-')
-	{
-		len--;
-		current = init_m.start - 1;
-	}
-	while (len >= 0)
-	{
-		nbr += (pow(10, len) * (*current - '0'));
-		current++;
-		len--;
-	}
-	if (*init_m.start == '-')
-		nbr *= (-1);
-	return (nbr);
+	len = init_m.end - init_m.start;
+	return (ft_atoi(ft_strlencpy(current, init_m.start, len)));
 }

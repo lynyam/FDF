@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:50:48 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 03:04:27 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 05:49:47 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdbool.h>
 # include "../report/report.h"
 # include "../model/model.h"
+# include "../libft/libft.h"
 # include "fcntl.h"
 # include <stdio.h>
 # include <stdlib.h>

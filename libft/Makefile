@@ -5,40 +5,35 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/16 17:39:14 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/17 05:21:28 by lnyamets         ###   ########.fr        #
+#    Created: 2023/10/17 05:00:29 by lnyamets          #+#    #+#              #
+#    Updated: 2023/10/17 05:49:45 by lnyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME = libft.a
 
-SRCS =	client/client.c \
-		manager/manager.c \
-		engine/engine.c \
-		engine/engine_draw_line.c \
-		engine/engine_callback.c \
-		data/data.c\
-		model/model.c \
-		model/util.c \
-		report/report.c \
+SRC =	ft_atoi.c \
+		ft_strlencpy.c \
+		ft_strlen.c
 
-CFLAGS = -Wall
+OBJECT = ft_atoi.o \
+		ft_strlencpy.o \
+		ft_strlen.o
 
-OBJ = $(SRCS:.c=.o)
+FLAG = -Wall -Wextra -Wall
+
+HEADER = includes
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	make -C libft
-	gcc -o $(NAME) $(FLAGS) $(OBJ) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_Linux -lXext -lX11 -lm -lz libft/libft.a
-	echo "Fdf done"
+$(NAME):
+	gcc $(FLAG) -c $(SRC) -I$(HEADER) && ar rc $(NAME) $(OBJECT)
 
 clean:
-	make clean -C libft
-	rm -f $(OBJ)
+	/bin/rm -f $(OBJECT)
 
 fclean: clean
-	make fclean -C libft
-	rm -f $(NAME)
+	/bin/rm -f $(NAME)
+	/bin/rm -f $(OBJECT)
 
 re: fclean all
