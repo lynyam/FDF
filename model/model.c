@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 02:28:11 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 03:07:01 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/18 19:23:29 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,27 @@ void	allocate_matrix(t_matrix *p_matrix)
 
 char	*ft_concat(t_file *p_file, int prev_buf_cnt, int buf_count)
 {
-	char	*target;
 	char	*rtn;
 	int		i;
+	int		j;
 
-	rtn = (char *)malloc(sizeof(char) * (prev_buf_cnt + buf_count + 1));
+	rtn = (char *)malloc(sizeof(char) * (prev_buf_cnt + buf_count) + 2);
 	if (rtn == NULL)
-		return (NULL);
-	target = rtn;
-	target[prev_buf_cnt + buf_count] = '\0';
+		return (rtn_null_free_charptr(rtn));
 	i = 0;
-	while (p_file->file_str && *(p_file->file_str) != '\0' && i < prev_buf_cnt)
+	rtn[prev_buf_cnt + buf_count] = '\0';
+	while (i < prev_buf_cnt)
 	{
-		if (is_valid_char(*p_file->file_str) == 0)
-			return (NULL);
-		*target++ = p_file->file_str[i++];
+		rtn[i] = p_file->file_str[i];
+		i++;
 	}
-	i = 0;
-	while (*p_file->buf != '\0' && i < buf_count)
+	j = 0;
+	while (j < buf_count)
 	{
 		if (is_valid_char(*(p_file->buf)) == 0)
-			return (NULL);
-		*target++ = p_file->buf[i++];
+			return (rtn_null_free_charptr(rtn));
+		rtn[i + j] = p_file->buf[j];
+		j++;
 	}
 	return (rtn);
 }
@@ -85,4 +84,17 @@ int	count_row(char *buf, int row)
 		buf++;
 	}
 	return (row);
+}
+
+int	get_matrice_size(t_matrix	*p_matrix)
+{
+	int	matrix_size = 0;
+	if (p_matrix->col >= p_matrix->row)
+	{
+		return (p_matrix->col);
+	}
+	else
+	{
+		return (p_matrix->row);
+	}
 }

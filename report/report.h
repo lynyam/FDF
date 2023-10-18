@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 01:00:29 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 01:05:24 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 21:13:22 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	report_exit_program(char *message_type);
 int		report_log_error(char *message, char *dta_struct);
 void	report_connection_x_server(void *p_connection_id);
 void	report_create_window(void *p_window_id);
+void	report_create_img(void *p_img_id);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 17:39:14 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/17 05:21:28 by lnyamets         ###   ########.fr        #
+#    Updated: 2023/10/17 12:40:08 by lnyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS =	client/client.c \
 		data/data.c\
 		model/model.c \
 		model/util.c \
+		model/free_allocation.c \
 		report/report.c \
 
 CFLAGS = -Wall

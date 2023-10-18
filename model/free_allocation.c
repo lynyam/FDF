@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   free_allocation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 18:12:05 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 11:40:08 by lnyamets         ###   ########.fr       */
+/*   Created: 2023/10/17 12:34:05 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/17 12:48:59 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "model.h"
 
-int	main(int argc, char **argv)
+char	*rtn_null_free_charptr(char *rtn)
 {
-	int		return_code;
+	free(rtn);
+	return (NULL);
+}
 
-	return_code = 0;
-	if (argc != 2)
-	{
-		report_exit_program(INCORRECT_ARGS_ERROR);
-		return (SUCCES_CODE);
-	}
-	return_code = manager_start_processing(argv);
-	return (return_code);
+void	free_charptr(char *rtn)
+{
+	free(rtn);
 }

@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 00:59:52 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 01:00:04 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 21:12:08 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ void	report_create_window(void *p_window_id)
 		printf("window create id not create\n");
 	}
 	printf("window create with ID : %p \n", p_window_id);
+}
+
+void	report_create_img(void *p_img_id)
+{
+	if (p_img_id == NULL)
+	{
+		printf("image not create\n");
+	}
+	printf("image create with ID : %p \n", p_img_id);
 }

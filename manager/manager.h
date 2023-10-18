@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:39:50 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/16 22:39:49 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:54:27 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include "../report/report.h"
 # include <stdio.h>
 
-int	manager_start_processing(char **argv);
-int	manager_read_arg(char **argv, t_file **pp_file);
-int	manager_store_data(t_file *p_file, t_matrix **pp_matrix);
+int		manager_start_processing(char **argv);
+int		manager_read_arg(char **argv, t_file **pp_file);
+int		manager_store_data(t_file *p_file, t_matrix **pp_matrix);
+void	manager_init_p_window(t_window *p_window, char **argv);
+
 #endif

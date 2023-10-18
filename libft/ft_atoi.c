@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 04:58:42 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 05:49:40 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:59:08 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int	ft_atoi(const char *str)
 	nb = 0;
 	i = 0;
 	neg = 1;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
-			|| str[i] == '\t' || str[i] == '\f' || str[i] == '\r')
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\v' || str[i] == '\t' || str[i] == '\f'
+		|| str[i] == '\r')
 		i++;
 	if (str[i] == '-')
 		neg = neg * -1;

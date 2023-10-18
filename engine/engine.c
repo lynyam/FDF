@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:38:48 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 00:55:24 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/18 20:02:16 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	engine_create_window(t_window *p_window)
 		&p_window->height);
 	p_window->p_window_id = mlx_new_window(p_window->p_connection_id,
 			p_window->width, p_window->height, p_window->title);
-	report_create_window(p_window);
+	report_create_window(p_window->p_window_id);
+	p_window->p_img_id = mlx_new_image(p_window->p_connection_id,
+			p_window->width, p_window->height);
+	report_create_img(p_window->p_img_id);
 }
 
 void	draw_horizontal_lines(t_matrix *p_matrix, t_window *p_window)
@@ -88,15 +91,19 @@ t_window *p_window)
 	int		scale;
 	int		translation_x;
 	int		translation_y;
+	int		zoom;
 
-	translation_y = p_window->height / 2;
-	translation_x = p_window->width / 2;
-	scale = 10;
+	scale = 5;
+	zoom = 1;
+	translation_x = p_window->width / 2 - scale * (-(p_matrix->col / 2)
+			+ (p_matrix->row / 2));
+	translation_y = p_window->height / 2 - scale * ((p_matrix->col / 2)
+			+ (p_matrix->row / 2)) * 0.5;
 	pair.p1.x = scale * (-p1_xy.x + p1_xy.y) + translation_x;
 	pair.p1.y = scale * (p1_xy.x + p1_xy.y) * 0.5
-		- p_matrix->matrix[p1_xy.x][p1_xy.y] + translation_y;
+		- zoom * p_matrix->matrix[p1_xy.x][p1_xy.y] + translation_y;
 	pair.p2.x = scale * (-p2_xy.x + p2_xy.y) + translation_x;
 	pair.p2.y = scale * (p2_xy.x + p2_xy.y) * 0.5
-		- p_matrix->matrix[p2_xy.x][p2_xy.y] + translation_y;
+		- zoom * p_matrix->matrix[p2_xy.x][p2_xy.y] + translation_y;
 	return (pair);
 }

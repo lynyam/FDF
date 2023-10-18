@@ -100,7 +100,6 @@ void	engine_plot_line(t_pair *p_pair, t_window *p_window)
 	t_point	inc_p;
 	t_pair	pair0;
 
-	p_window->color = 900;
 	pair0.p1.x = p_pair->p1.x;
 	pair0.p1.y = p_pair->p1.y;
 	pair0.p2.x = p_pair->p2.x;

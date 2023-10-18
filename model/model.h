@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 02:03:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 05:44:39 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/18 19:23:41 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define SUCCES_CODE 0
 # define RETURN_CODE_ZERO 0
 # define RETURN_CODE_ONE 1
-# define BUFSIZE 1020
+# define BUFSIZE 1080
 
 typedef struct s_file {
 	char		*file_str;
@@ -56,6 +56,7 @@ typedef struct s_matrix {
 	int			**matrix;
 	int			col;
 	int			row;
+	int			size;
 }				t_matrix;
 
 typedef struct s_init_m
@@ -75,5 +76,8 @@ int		sgn(int x);
 int		color_to_int(struct s_color *p_color);
 void	util_init_t_init(t_init_m *init);
 void	util_increment(t_init_m *init, char **str);
+void	free_charptr(char *rtn);
+char	*rtn_null_free_charptr(char *rtn);
+int		get_matrice_size(t_matrix	*p_matrix);
 
 #endif

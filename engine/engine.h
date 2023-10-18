@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 02:44:44 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/17 20:58:13 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_window
 {
 	void		*p_connection_id;
 	void		*p_window_id;
+	void		*p_img_id;
 	int			width;
 	int			height;
 	char		*title;
