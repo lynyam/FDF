@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 04:19:30 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 10:41:03 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 			if (init.row < p_matrix->row && init.col < p_matrix->col)
 			{
 				point.z = 0;
-				point.color = 0;
+				point.color.red = 0;
+   				point.color.green = 0;
+    			point.color.blue = 0;
 				if (put_str_to_int(init, &point))
 					(p_matrix->matrix)[init.row][init.col] = point;
 			}
@@ -109,6 +111,47 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 	return (RETURN_CODE_ONE);
 }
 
+unsigned int parseHexDigit(char c) {
+    if (c >= '0' && c <= '9') {
+        return c - '0';
+    } else if (c >= 'A' && c <= 'F') {
+        return c - 'A' + 10;
+    } else if (c >= 'a' && c <= 'f') {
+        return c - 'a' + 10;
+    }
+    return 0; // Valeur par défaut si le caractère n'est pas hexadécimal
+}
+
+t_color	parse_color(const char *token)
+{
+    t_color color;
+    color.red = 0;
+    color.green = 0;
+    color.blue = 0;
+	if (token != NULL)
+	{
+
+        	color.red = (parseHexDigit(token[2]) << 4) | parseHexDigit(token[3]);
+       		color.green = (parseHexDigit(token[4]) << 4) | parseHexDigit(token[5]);
+        	color.blue = (parseHexDigit(token[6]) << 4) | parseHexDigit(token[7]);
+   	 }
+	 else
+	{
+		color.red = 255;
+    	color.green = 255;
+    	color.blue = 255;
+	}
+	printf("red = %d, green = %d, blue = %d,\n", color.red, color.green, color.blue);
+
+
+    return color;
+}
+void extractRGB(int rgbValue, int *red, int *green, int *blue) {
+    *red = (rgbValue >> 16) & 255;
+    *green = (rgbValue >> 8) & 255;
+    *blue = rgbValue & 255;
+}
+
 int	put_str_to_int(t_init_m init_m, t_point_color *z_color)
 {
 	int		len;
@@ -123,9 +166,15 @@ int	put_str_to_int(t_init_m init_m, t_point_color *z_color)
 	else
 		return RETURN_CODE_ZERO;
 	token = ft_strtok(NULL, ",");
-	if (token != NULL)
-		z_color->color = (unsigned int)ft_strtol(token, NULL, 16);
-	else
-		z_color->color = 0xFFFFFF;
+	//z_color->color = parse_color(token);
+	if (token != NULL){
+		unsigned int val = (unsigned int)ft_strtol(token, NULL, 16);
+		extractRGB(val, &(z_color->color.red), &(z_color->color.green), &(z_color->color.blue));
+	}
+	else{
+		z_color->color.red = 255;
+    	z_color->color.green = 255;
+    	z_color->color.blue = 255;
+	}
 	return RETURN_CODE_ONE;
 }

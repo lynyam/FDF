@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 20:58:13 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 08:15:17 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ typedef struct s_window
 	int			width;
 	int			height;
 	char		*title;
-	int			color;
+	t_color		color;
+	char		*pixel_str;
+	int			bits_per_pixel;
+	int			endian;
+	int			row_size;
 }				t_window;
 
 void	engine_create_window(t_window *p_window);
@@ -45,5 +49,8 @@ int		engine_key_event(int key, t_window *p_window);
 int		engine_mouse_event(int button, int x, int y, t_window *p_window);
 int		color_to_int(struct s_color *p_color);
 void	engine_plot_line(t_pair *p_pair, t_window *p_window);
+void			ft_my_pixel_put(t_window *p_window, int x, int y);
+int	ft_key_hook(int key, t_window *p_window);
+int			ft_loop_key_hook(t_window *p_window);
 
 #endif

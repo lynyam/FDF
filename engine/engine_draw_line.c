@@ -19,8 +19,9 @@ void	draw_horizontal_line(t_pair pair0, int inc_x, t_window *p_window)
 	x = pair0.p1.x;
 	while (x != pair0.p2.x + inc_x)
 	{
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
-			x, pair0.p1.y, p_window->color);
+		//mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
+		//	x, pair0.p1.y, p_window->color);
+		ft_my_pixel_put(p_window, x, pair0.p1.y);
 		x += inc_x;
 	}
 }
@@ -32,8 +33,9 @@ void	draw_vertical_line(t_pair pair0, int inc_y, t_window *p_window)
 	y = pair0.p1.y;
 	while (y != pair0.p2.y + inc_y)
 	{
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
-			pair0.p1.x, y, p_window->color);
+		//mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id,
+		//	pair0.p1.x, y, p_window->color);
+		ft_my_pixel_put(p_window, pair0.p1.x, y);
 		y += inc_y;
 	}
 }
@@ -54,8 +56,9 @@ void	draw_steep_line(t_pair pair0, t_point inc_p, t_point dp,
 	y = pair0.p1.y;
 	while (x != pair0.p2.x + inc_p.x)
 	{
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
-			p_window->color);
+		//mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
+		//	p_window->color);
+		ft_my_pixel_put(p_window, x, y);
 		error += slope;
 		if (error >= 0)
 		{
@@ -73,23 +76,20 @@ static int			ft_loop_key_hook_1(t_window *p_window)
 	p_window->ret = mlx_get_data_addr(p_window->img, &(p_window->bits_per_pixel),
 		&(p_window->size_line), &(p_window->endian));
 	return (0);
-}
+}*/
 
-void			ft_my_pixel_put(t_window *p_window, int i, int j, float q)
+void			ft_my_pixel_put(t_window *p_window, int x, int y)
 {
-	int			k;
-
-	ft_degra2(af, q);
-	if ((i > 0 && j > 0 && i < WIDTH && j < HEIGHT))
+	if ((x > 0 && y > 0 && x < p_window->width && y < p_window->height))
 	{
-		af->ret[((i * 4 + (j * af->size_line)))] = af->b;
-		af->ret[((i * 4 + (j * af->size_line))) + 1] = af->r;
-		af->ret[((i * 4 + (j * af->size_line))) + 2] = af->v;
-		af->ret[((i * 4 + (j * af->size_line))) + 3] = af->opacity;
+		p_window->pixel_str[((x * 4 + (y * p_window->row_size)))] = p_window->color.blue;
+		p_window->pixel_str[((x * 4 + (y * p_window->row_size))) + 1] = p_window->color.red;
+		p_window->pixel_str[((x * 4 + (y * p_window->row_size))) + 2] = p_window->color.green;
+		//p_window->pixel_str[((x * 4 + (y * p_window->row_size))) + 3] = 128;
 	}
 }
 
-static int			ft_loop_key_hook_1(t_window *p_window)
+/*static int			ft_loop_key_hook_1(t_window *p_window)
 {
 
 	mlx_put_image_to_window(af->mlx, af->win, af->img, 0, 0);
@@ -118,9 +118,9 @@ void	draw_gentle_line(t_pair pair0, t_point inc_p, t_point dp,
 	//ft_loop_key_hook_1();
 	while (y != pair0.p2.y + inc_p.y)
 	{
-		mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
-		 	p_window->color);
-		//ft_my_pixel_put();
+		//mlx_pixel_put(p_window->p_connection_id, p_window->p_window_id, x, y,
+		 	//p_window->color);
+		ft_my_pixel_put(p_window, x, y);
 		//ft_loop_key_hook()
 
 		error += slope;
@@ -157,4 +157,6 @@ void	engine_plot_line(t_pair *p_pair, t_window *p_window)
 		draw_steep_line(pair0, inc_p, dp, p_window);
 	else
 		draw_gentle_line(pair0, inc_p, dp, p_window);
+	//mlx_put_image_to_window(p_window->p_connection_id,
+			//p_window->p_window_id, p_window->p_img_id, 0, 0);
 }

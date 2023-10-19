@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 02:03:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/18 21:32:28 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 10:42:47 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ typedef struct s_size {
 }		t_size;
 
 typedef struct s_color {
-	unsigned int	red;
-	unsigned int	green;
-	unsigned int	blue;
+	int		red;
+	int		green;
+	int		blue;
 }					t_color;
 
 typedef struct s_point {
@@ -54,7 +54,7 @@ typedef struct s_pair {
 
 typedef struct s_point_color {
 	int	z;
-	int	color;
+	t_color color;
 }		t_point_color;
 
 typedef struct s_matrix {
@@ -82,7 +82,7 @@ int		color_to_int(struct s_color *p_color);
 void	util_init_t_init(t_init_m *init);
 void	util_increment(t_init_m *init, char **str);
 void	free_charptr(char *rtn);
-char	*rtn_null_free_charptr(char *rtn);
+void	*rtn_null_free_charptr(char *rtn);
 int		get_matrice_size(t_matrix	*p_matrix);
 
 #endif

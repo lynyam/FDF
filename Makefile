@@ -6,7 +6,7 @@
 #    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 17:39:14 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/17 12:40:08 by lnyamets         ###   ########.fr        #
+#    Updated: 2023/10/19 08:48:06 by lnyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS =	client/client.c \
 		model/free_allocation.c \
 		report/report.c \
 
-CFLAGS = -Wall
+CFLAGS = -Wall -fPIE
 
 OBJ = $(SRCS:.c=.o)
 
