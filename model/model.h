@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 02:03:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/18 19:23:41 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/18 21:32:28 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,17 @@ typedef struct s_pair {
 	t_point		p2;
 }				t_pair;
 
+typedef struct s_point_color {
+	int	z;
+	int	color;
+}		t_point_color;
+
 typedef struct s_matrix {
-	int			**matrix;
-	int			col;
-	int			row;
-	int			size;
-}				t_matrix;
+	t_point_color	**matrix;
+	int				col;
+	int				row;
+	int				size;
+}					t_matrix;
 
 typedef struct s_init_m
 {

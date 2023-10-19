@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:24:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 03:14:20 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 01:21:26 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	is_valid_char(char c)
 {
-	if ((c >= '0' && c <= '9') || c == 32 || c == '\n' || c == '-')
+	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
+		|| (c >= 'A' && c <= 'F')|| c == 'x' || c  == ','
+		|| c == 32 || c == '\n' || c == '-')
 		return (RETURN_CODE_ONE);
 	return (RETURN_CODE_ZERO);
 }
@@ -35,7 +37,14 @@ int	sgn(int x)
 	}
 }
 
-int	color_to_int(struct s_color *p_color)
+/* int	color_to_int(t_color *p_color_s, t_color *p_color_f, t_color *p_color, int pct)
+{
+	p_color->red = s->red * pct
+    p_color->bleu
+	color_to_int(p_color);
+} */
+
+int	color_to_int(t_color *p_color)
 {
 	return (((p_color->red) << 16) | ((p_color->green) << 8) | (p_color->blue));
 }

@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:42:04 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 18:08:25 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:19:30 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	data_read_file(t_file *p_file)
 
 	while (read_count != 0)
 	{
-		memset(p_file->buf, 0, BUFSIZE);
+		//to do remplacer le memset
+		ft_memset(p_file->buf, 0, BUFSIZE);
 		read_count = read(p_file->fd, p_file->buf, BUFSIZE);
 		if (read_count != 0)
 		{
@@ -72,10 +73,13 @@ void	data_store_file_in_matrix(t_file *p_file, t_matrix *p_matrix)
 int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 {
 	t_init_m	init;
+	t_point_color point;
 
 	util_init_t_init(&init);
 	while (*str != '\0')
 	{
+		while (*str == 32)
+			str++;
 		if (*str != 32 && *str != '\0')
 			init.start = str;
 		while (*str != 32 && *str != '\0' && *str != '\n')
@@ -84,7 +88,14 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 		{
 			init.end = str;
 			if (init.row < p_matrix->row && init.col < p_matrix->col)
-				(p_matrix->matrix)[init.row][init.col] = put_str_to_int(init);
+			{
+				point.z = 0;
+				point.color = 0;
+				if (put_str_to_int(init, &point))
+					(p_matrix->matrix)[init.row][init.col] = point;
+			}
+			else if (init.row == p_matrix->row && init.col == 0)
+				return (RETURN_CODE_ONE);
 			else
 				return (RETURN_CODE_ZERO);
 			if (*str == 32)
@@ -98,11 +109,23 @@ int	init_matrix_with_file(t_matrix *p_matrix, char *str)
 	return (RETURN_CODE_ONE);
 }
 
-int	put_str_to_int(t_init_m init_m)
+int	put_str_to_int(t_init_m init_m, t_point_color *z_color)
 {
 	int		len;
-	char	current[init_m.end - init_m.start];
-
+	char	current[(init_m.end - init_m.start) + 1];
 	len = init_m.end - init_m.start;
-	return (ft_atoi(ft_strlencpy(current, init_m.start, len)));
+	ft_strncpy(current, init_m.start, len);
+	current[len] = '\0';
+	char *token = ft_strtok(current, ",");
+	if (token != NULL) {
+		z_color->z = ft_atoi(token);
+	}
+	else
+		return RETURN_CODE_ZERO;
+	token = ft_strtok(NULL, ",");
+	if (token != NULL)
+		z_color->color = (unsigned int)ft_strtol(token, NULL, 16);
+	else
+		z_color->color = 0xFFFFFF;
+	return RETURN_CODE_ONE;
 }

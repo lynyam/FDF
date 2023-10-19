@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:13:45 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/17 18:00:11 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:08:13 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	manager_init_p_window(t_window *p_window, char **argv)
 {
 	p_window->p_connection_id = NULL;
 	p_window->title = argv[0];
-	p_window->color = 28888888;
+	p_window->color = 0xFFFFF;
 }
 
 int	manager_store_data(t_file *p_file, t_matrix **pp_matrix)

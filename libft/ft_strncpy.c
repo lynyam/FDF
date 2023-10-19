@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlencpy.c                                     :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 05:39:09 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/18 22:19:12 by lnyamets         ###   ########.fr       */
+/*   Created: 2023/10/19 01:25:16 by lnyamets          #+#    #+#             */
+/*   Updated: 2023/10/19 02:50:22 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "libft.h"
 
-char	*ft_strlencpy(char *dest, const char *src, int len)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-    if (src == NULL) {
-        dest[0] = '\0';
-        return dest;
-    }
+	size_t i;
 
-    int i = 0;
-    while (i < len && src[i] != '\0')
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return dest;
+	i = 0;
+	while (i < n)
+	{
+		dest[i] = src[i];
+		if (src[i] == '\0')
+			break;
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

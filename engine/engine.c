@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:38:48 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/18 20:02:16 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:24:30 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ t_window *p_window)
 			+ (p_matrix->row / 2)) * 0.5;
 	pair.p1.x = scale * (-p1_xy.x + p1_xy.y) + translation_x;
 	pair.p1.y = scale * (p1_xy.x + p1_xy.y) * 0.5
-		- zoom * p_matrix->matrix[p1_xy.x][p1_xy.y] + translation_y;
+		- zoom * p_matrix->matrix[p1_xy.x][p1_xy.y].z + translation_y;
 	pair.p2.x = scale * (-p2_xy.x + p2_xy.y) + translation_x;
 	pair.p2.y = scale * (p2_xy.x + p2_xy.y) * 0.5
-		- zoom * p_matrix->matrix[p2_xy.x][p2_xy.y] + translation_y;
+		- zoom * p_matrix->matrix[p2_xy.x][p2_xy.y].z + translation_y;
+	p_window->color = p_matrix->matrix[p2_xy.x][p2_xy.y].color;
 	return (pair);
 }
