@@ -6,7 +6,7 @@
 #    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 05:00:29 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/19 02:20:22 by lnyamets         ###   ########.fr        #
+#    Updated: 2023/10/19 20:57:20 by lnyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,14 +30,12 @@ OBJECT = ft_atoi.o \
 		ft_strtok.o \
 		ft_strtol.o \
 
-FLAG = -Wall -Wextra -Wall -g
-
-HEADER = includes
+FLAG = -Wall -Wextra -Wall
 
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAG) -c $(SRC) -I$(HEADER) && ar rc $(NAME) $(OBJECT)
+	gcc $(FLAG) -c $(SRC) && ar rc $(NAME) $(OBJECT)
 
 clean:
 	/bin/rm -f $(OBJECT)
