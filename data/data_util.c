@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:15:08 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 14:35:38 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 20:35:30 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*data_process_token(t_init_m *init, t_matrix *p_matrix,
 				(p_matrix->matrix)[init->row][init->col] = *point;
 		}
 		else if (init->row == p_matrix->row && init->col == 0)
+			return (str);
+		else
 			return (NULL);
 		if (*str == 32)
 			init->col++;
