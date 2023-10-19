@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:22:22 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 21:25:14 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:28:53 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	engine_callback_hook(t_window *p_window)
 	mlx_loop(p_window->p_connection_id);
 }
 
-int	engine_close_window()
+int	engine_close_window(void)
 {
 	exit(0);
 }
