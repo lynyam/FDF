@@ -6,13 +6,13 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:38:48 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 04:24:30 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:38:13 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
 
-void	engine_create_window(t_window *p_window)
+void	engine_create_image(t_window *p_window)
 {
 	p_window->p_connection_id = mlx_init();
 	report_connection_x_server(p_window->p_connection_id);
@@ -24,6 +24,9 @@ void	engine_create_window(t_window *p_window)
 	p_window->p_img_id = mlx_new_image(p_window->p_connection_id,
 			p_window->width, p_window->height);
 	report_create_img(p_window->p_img_id);
+	p_window->pixel_str = mlx_get_data_addr(p_window->p_img_id,
+			&(p_window->bits_per_pixel), &(p_window->row_size),
+			&(p_window->endian));
 }
 
 void	draw_horizontal_lines(t_matrix *p_matrix, t_window *p_window)
@@ -93,7 +96,7 @@ t_window *p_window)
 	int		translation_y;
 	int		zoom;
 
-	scale = 5;
+	scale = 4;
 	zoom = 1;
 	translation_x = p_window->width / 2 - scale * (-(p_matrix->col / 2)
 			+ (p_matrix->row / 2));

@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 02:03:57 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 10:42:47 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:49:17 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../report/report.h"
 # include <stdlib.h>
 # include <math.h>
+# include <stddef.h>
 # define NOT_OPEN_FILE -1
 # define ERROR_CODE 1
 # define SUCCES_CODE 0
@@ -53,9 +54,9 @@ typedef struct s_pair {
 }				t_pair;
 
 typedef struct s_point_color {
-	int	z;
-	t_color color;
-}		t_point_color;
+	int		z;
+	t_color	color;
+}			t_point_color;
 
 typedef struct s_matrix {
 	t_point_color	**matrix;
@@ -76,13 +77,15 @@ int		count_row(char *buf, int row);
 int		count_col(char *buf, int *col);
 char	*ft_concat(t_file *p_file, int prev_buf_count, int buf_count);
 void	allocate_matrix(t_matrix *p_matrix);
-int		is_valid_char(char c);
-int		sgn(int x);
-int		color_to_int(struct s_color *p_color);
-void	util_init_t_init(t_init_m *init);
-void	util_increment(t_init_m *init, char **str);
 void	free_charptr(char *rtn);
 void	*rtn_null_free_charptr(char *rtn);
 int		get_matrice_size(t_matrix	*p_matrix);
+void	init_s_point_color(t_point_color *p_point_color, int value, int all);
+void	init_t_init(t_init_m *init);
+int		is_valid_char(char c);
+int		sgn(int x);
+void	util_increment(t_init_m *init, char **str);
+char	*util_skip_whitespace(char *str);
+char	*util_skip_to_next_token(char *str);
 
 #endif

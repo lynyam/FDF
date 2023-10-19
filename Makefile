@@ -6,7 +6,7 @@
 #    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 17:39:14 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/19 08:48:06 by lnyamets         ###   ########.fr        #
+#    Updated: 2023/10/19 14:54:40 by lnyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,16 @@ SRCS =	client/client.c \
 		engine/engine.c \
 		engine/engine_draw_line.c \
 		engine/engine_callback.c \
+		engine/engine_utils.c \
 		data/data.c\
+		data/data_util.c \
 		model/model.c \
 		model/util.c \
+		model/init_data_struct.c \
 		model/free_allocation.c \
 		report/report.c \
 
-CFLAGS = -Wall -fPIE
+CFLAGS = -Wall -Werror -Wextra
 
 OBJ = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:13:45 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 11:40:18 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:19:14 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	manager_start_processing(char **argv)
 		return (report_log_error(ALLOCATED_ERROR, "p_window"));
 	}
 	manager_init_p_window(p_window, argv);
-	engine_create_window(p_window);
-	ft_loop_key_hook(p_window);
+	engine_create_image(p_window);
 	engine_draw(p_matrix, p_window);
 	engine_callback_hook(p_window);
 	return (0);

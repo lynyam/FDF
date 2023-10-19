@@ -6,7 +6,7 @@
 /*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 02:28:11 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/18 21:06:59 by lnyamets         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:46:29 by lnyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	allocate_matrix(t_matrix *p_matrix)
 	int	i;
 
 	p_matrix->matrix = (t_point_color **)malloc(p_matrix->row
-		* sizeof(t_point_color *));
+			* sizeof(t_point_color *));
 	if (p_matrix->matrix != NULL)
 	{
 		i = 0;
 		while (i < p_matrix->row)
 		{
 			(p_matrix->matrix)[i] = (t_point_color *)malloc(p_matrix->col
-				* sizeof(t_point_color));
+					* sizeof(t_point_color));
 			i++;
 		}
 	}
