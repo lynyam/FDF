@@ -6,7 +6,7 @@
 #    By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 07:01:02 by ynyamets          #+#    #+#              #
-#    Updated: 2025/02/05 07:01:06 by ynyamets         ###   ########.fr        #
+#    Updated: 2025/02/05 23:21:34 by ynyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,15 +34,18 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
+	make -C minilibx-linux
 	gcc -o $(NAME) $(CFLAGS) $(OBJ) -L./minilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz libft/libft.a
 	echo "Fdf done"
 
 clean:
 	make clean -C libft
+	make clean -C minilibx-linux
 	rm -f $(OBJ)
 
 fclean: clean
 	make fclean -C libft
+	make clean -C minilibx-linux
 	rm -f $(NAME)
 
 re: fclean all
