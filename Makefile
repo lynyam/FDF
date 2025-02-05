@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+         #
+#    By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/16 17:39:14 by lnyamets          #+#    #+#              #
-#    Updated: 2023/10/19 20:57:53 by lnyamets         ###   ########.fr        #
+#    Created: 2025/02/05 07:01:02 by ynyamets          #+#    #+#              #
+#    Updated: 2025/02/05 07:01:06 by ynyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
-	gcc -o $(NAME) $(FLAGS) $(OBJ) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_Linux -lXext -lX11 -lm -lz libft/libft.a
+	gcc -o $(NAME) $(CFLAGS) $(OBJ) -L./minilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz libft/libft.a
 	echo "Fdf done"
 
 clean:

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnyamets <lnyamets@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 18:47:03 by lnyamets          #+#    #+#             */
-/*   Updated: 2023/10/19 21:25:58 by lnyamets         ###   ########.fr       */
+/*   Created: 2025/02/05 06:52:12 by ynyamets          #+#    #+#             */
+/*   Updated: 2025/02/05 06:52:17 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define PI 3.14
 # include "../report/report.h"
 # include "../model/model.h"
-# include "../mlx_linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
