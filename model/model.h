@@ -6,13 +6,14 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:27:08 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:27:17 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:13:25 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MODEL_H
 # define MODEL_H
 # include "../report/report.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <math.h>
 # include <stddef.h>
@@ -25,7 +26,7 @@
 
 typedef struct s_file {
 	char		*file_str;
-	char		buf[BUFSIZ];
+	char		buf[BUFSIZE];
 	int			first_line;
 	int			row;
 	int			col;

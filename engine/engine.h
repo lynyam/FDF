@@ -6,7 +6,7 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:52:12 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:52:17 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:22:06 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_window
 	int			bits_per_pixel;
 	int			endian;
 	int			row_size;
+	t_matrix	*p_matrix;
+	t_file		*p_file;
 }				t_window;
 
 void	engine_create_image(t_window *p_window);
@@ -44,9 +46,11 @@ t_pair	engine_espace_to_iso(t_point p1_xy, t_point p2_xy, t_matrix *p_matrix,
 void	engine_plot_line(t_pair *p_pair, t_window *p_window);
 void	engine_draw(t_matrix *p_matrix, t_window *p_window);
 void	engine_callback_hook(t_window *p_window);
-int		engine_close_window(void);
-int		engine_key_event(int key);
+int		engine_close_window(void *param);
+int		engine_key_event(int key, void *param);
 void	engine_pixel_put(t_window *p_window, int x, int y);
-int		ft_key_hook(int key);
+//static void	free_matrix(t_matrix *p_matrix);
+void	engine_cleanup(t_window *p_window);
+//int		ft_key_hook(int key);
 
 #endif

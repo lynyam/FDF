@@ -6,14 +6,14 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:53:39 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:53:48 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:11:26 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
 char	*data_process_token(t_init_m *init, t_matrix *p_matrix,
-	char *str, t_point_color *point)
+		char *str, t_point_color *point)
 {
 	str = util_skip_whitespace(str);
 	if (*str != '\0')
@@ -46,4 +46,12 @@ void	data_extract_rgb(int rgbValue, int *red, int *green, int *blue)
 	*red = (rgbValue >> 16) & 255;
 	*green = (rgbValue >> 8) & 255;
 	*blue = rgbValue & 255;
+}
+
+int	data_open_file(char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY, 0);
+	return (fd);
 }

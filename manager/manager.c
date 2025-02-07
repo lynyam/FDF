@@ -6,7 +6,7 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:23:59 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:24:04 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:03:37 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	manager_start_processing(char **argv)
 		return (report_log_error(ALLOCATED_ERROR, "p_window"));
 	}
 	manager_init_p_window(p_window, argv);
+	p_window->p_file = p_file;
+	p_window->p_matrix = p_matrix;
 	engine_create_image(p_window);
 	engine_draw(p_matrix, p_window);
 	engine_callback_hook(p_window);

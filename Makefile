@@ -6,7 +6,7 @@
 #    By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 07:01:02 by ynyamets          #+#    #+#              #
-#    Updated: 2025/02/05 23:21:34 by ynyamets         ###   ########.fr        #
+#    Updated: 2025/02/07 16:21:16 by ynyamets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = fdf
 SRCS =	client/client.c \
 		manager/manager.c \
 		engine/engine.c \
+		engine/engine_cleanup.c \
 		engine/engine_draw_line.c \
 		engine/engine_callback.c \
 		engine/engine_utils.c \

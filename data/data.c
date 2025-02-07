@@ -6,24 +6,41 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:53:06 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:53:20 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:29:51 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "data.h"
 
-int	data_open_file(char *file_name)
+static int	process_buffer(t_file *p_file, int *prev_read_count)
 {
-	int	fd;
+	int		read_count;
+	char	*temp;
 
-	fd = open(file_name, O_RDONLY, 0);
-	return (fd);
+	ft_memset(p_file->buf, 0, BUFSIZE);
+	read_count = read(p_file->fd, p_file->buf, BUFSIZE);
+	if (read_count < 0)
+		return (-1);
+	if (read_count != 0)
+	{
+		temp = ft_concat(p_file, *prev_read_count, read_count);
+		if (temp == NULL)
+			return (-1);
+		if (p_file->file_str != NULL)
+			free(p_file->file_str);
+		p_file->file_str = temp;
+		*prev_read_count += read_count;
+		p_file->row = count_row(p_file->buf, p_file->row);
+		if (p_file->col == 0 || p_file->first_line != -1)
+			p_file->first_line = count_col(p_file->buf, &(p_file->col));
+	}
+	return (read_count);
 }
 
 void	data_read_file(t_file *p_file)
 {
-	int		read_count;
-	int		prev_read_count;
+	int	read_count;
+	int	prev_read_count;
 
 	p_file->file_str = NULL;
 	prev_read_count = 0;
@@ -33,20 +50,10 @@ void	data_read_file(t_file *p_file)
 	read_count = 1;
 	while (read_count != 0)
 	{
-		ft_memset(p_file->buf, 0, BUFSIZE);
-		read_count = read(p_file->fd, p_file->buf, BUFSIZE);
-		if (read_count != 0)
-		{
-			p_file->file_str = ft_concat(p_file, prev_read_count, read_count);
-			if (p_file->file_str == NULL)
-				return ;
-			prev_read_count += read_count;
-			p_file->row = count_row(p_file->buf, p_file->row);
-			if (p_file->col == 0 || p_file->first_line != -1)
-				p_file->first_line = count_col(p_file->buf, &(p_file->col));
-		}
+		read_count = process_buffer(p_file, &prev_read_count);
+		if (read_count == -1)
+			return ;
 	}
-	return ;
 }
 
 void	data_store_file_in_matrix(t_file *p_file, t_matrix *p_matrix)

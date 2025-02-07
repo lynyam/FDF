@@ -6,7 +6,7 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:49:37 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:50:06 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:58:11 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ void	engine_callback_hook(t_window *p_window)
 	mlx_loop(p_window->p_connection_id);
 }
 
-int	engine_close_window(void)
+int	engine_close_window(void *param)
 {
+	t_window	*p_window;
+
+	p_window = (t_window *)param;
+	engine_cleanup(p_window);
 	exit(0);
 }
 
@@ -33,19 +37,14 @@ int	engine_expose_win(t_window *p)
 	return (0);
 }
 
-int	engine_key_event(int key)
+int	engine_key_event(int key, void *param)
 {
-	if (key == 0x35 || key == 0XFF1B)
-	{
-		exit(0);
-	}
-	return (0);
-}
+	t_window	*p_window;
 
-int	ft_key_hook(int key)
-{
 	if (key == 0x35 || key == 0XFF1B)
 	{
+		p_window = (t_window *)param;
+		engine_cleanup(p_window);
 		exit(0);
 	}
 	return (0);

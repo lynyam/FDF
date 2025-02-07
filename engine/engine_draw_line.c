@@ -6,7 +6,7 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:50:30 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:51:07 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 22:50:11 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	draw_horizontal_line(t_pair pair0, int inc_x, t_window *p_window)
 	int	x;
 
 	x = pair0.p1.x;
+	if (inc_x == 0)
+	{
+		engine_pixel_put(p_window, pair0.p1.x, pair0.p1.y);
+		return ;
+	}
 	while (x != pair0.p2.x + inc_x)
 	{
 		engine_pixel_put(p_window, x, pair0.p1.y);
@@ -29,6 +34,11 @@ void	draw_vertical_line(t_pair pair0, int inc_y, t_window *p_window)
 	int	y;
 
 	y = pair0.p1.y;
+	if (inc_y == 0)
+	{
+		engine_pixel_put(p_window, pair0.p1.x, pair0.p1.y);
+		return ;
+	}
 	while (y != pair0.p2.y + inc_y)
 	{
 		engine_pixel_put(p_window, pair0.p1.x, y);
@@ -37,7 +47,7 @@ void	draw_vertical_line(t_pair pair0, int inc_y, t_window *p_window)
 }
 
 void	draw_steep_line(t_pair pair0, t_point inc_p, t_point dp,
-	t_window *p_window)
+		t_window *p_window)
 {
 	int	x;
 	int	y;
@@ -64,7 +74,7 @@ void	draw_steep_line(t_pair pair0, t_point inc_p, t_point dp,
 }
 
 void	draw_gentle_line(t_pair pair0, t_point inc_p, t_point dp,
-	t_window *p_window)
+		t_window *p_window)
 {
 	int	x;
 	int	y;
@@ -92,26 +102,28 @@ void	draw_gentle_line(t_pair pair0, t_point inc_p, t_point dp,
 
 void	engine_plot_line(t_pair *p_pair, t_window *p_window)
 {
-	t_point	dp;
-	t_point	inc_p;
-	t_pair	pair0;
+	int	dx;
+	int	dy;
+	int	inc_x;
+	int	inc_y;
 
-	pair0.p1.x = p_pair->p1.x;
-	pair0.p1.y = p_pair->p1.y;
-	pair0.p2.x = p_pair->p2.x;
-	pair0.p2.y = p_pair->p2.y;
-	dp.x = pair0.p2.x - pair0.p1.x;
-	dp.y = pair0.p2.y - pair0.p1.y;
-	inc_p.x = sgn(dp.x);
-	inc_p.y = sgn(dp.y);
-	dp.x = abs(dp.x);
-	dp.y = abs(dp.y);
-	if (dp.y == 0)
-		draw_horizontal_line(pair0, inc_p.x, p_window);
-	if (dp.x == 0)
-		draw_vertical_line(pair0, inc_p.y, p_window);
-	else if (dp.x >= dp.y)
-		draw_steep_line(pair0, inc_p, dp, p_window);
+	dx = abs(p_pair->p2.x - p_pair->p1.x);
+	dy = abs(p_pair->p2.y - p_pair->p1.y);
+	if (dx == 0 && dy == 0)
+	{
+		engine_pixel_put(p_window, p_pair->p1.x, p_pair->p1.y);
+		return ;
+	}
+	inc_x = sgn(p_pair->p2.x - p_pair->p1.x);
+	inc_y = sgn(p_pair->p2.y - p_pair->p1.y);
+	if (dx == 0)
+		draw_vertical_line(*p_pair, inc_y, p_window);
+	else if (dy == 0)
+		draw_horizontal_line(*p_pair, inc_x, p_window);
+	else if (dx >= dy)
+		draw_steep_line(*p_pair, (t_point){inc_x, inc_y},
+			(t_point){dx, dy}, p_window);
 	else
-		draw_gentle_line(pair0, inc_p, dp, p_window);
+		draw_gentle_line(*p_pair, (t_point){inc_x, inc_y},
+			(t_point){dx, dy}, p_window);
 }

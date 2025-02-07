@@ -6,7 +6,7 @@
 /*   By: ynyamets <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 06:26:25 by ynyamets          #+#    #+#             */
-/*   Updated: 2025/02/05 06:26:32 by ynyamets         ###   ########.fr       */
+/*   Updated: 2025/02/07 23:13:33 by ynyamets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	allocate_matrix(t_matrix *p_matrix)
 {
 	int	i;
+	int	j;
 
 	p_matrix->matrix = (t_point_color **)malloc(p_matrix->row
 			* sizeof(t_point_color *));
@@ -25,10 +26,18 @@ void	allocate_matrix(t_matrix *p_matrix)
 		{
 			(p_matrix->matrix)[i] = (t_point_color *)malloc(p_matrix->col
 					* sizeof(t_point_color));
-			i++;
+			if ((p_matrix->matrix)[i] == NULL)
+			{
+				j = 0;
+				while (j < i)
+					free((p_matrix->matrix)[j++]);
+				free(p_matrix->matrix);
+				return ;
+			}
+			ft_memset((p_matrix->matrix)[i++], 0, p_matrix->col
+				* sizeof(t_point_color));
 		}
 	}
-	return ;
 }
 
 char	*ft_concat(t_file *p_file, int prev_buf_cnt, int buf_count)
